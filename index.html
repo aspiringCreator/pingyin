@@ -1,0 +1,340 @@
+<!--
+ * @Author: your name
+ * @Date: 2021-11-30 15:48:30
+ * @LastEditTime: 2021-12-10 12:07:41
+ * @LastEditors: Please set LastEditors
+ * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ * @FilePath: \ccit-webe:\创正2021年\创正11月\拼音小游戏\index.html
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <title>首页</title>
+    <script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
+    <script src="https://code.createjs.com/1.0.0/preloadjs.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script src="js/lib-flexible.js"></script>
+    <script src="./js/data.js"></script>
+    <link rel="stylesheet" href="css/index.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+        }
+
+        /*采用定位的方式，让小球运动起来*/
+        #main {
+            margin: 0px auto;
+            position: relative;
+        }
+
+        /*小球的样式*/
+        #main div.item {
+            overflow: hidden;
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            opacity: 0.5;
+            border-radius: 50%;
+            background-color: transparent !important;
+            /* background: url(images/pop.png) no-repeat !important;
+            background-size: 100% 100%; */
+        }
+
+        #main div.item img {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <audio style="display: none;" id="bg-music" src="./images/drum_1.mp3" autoplay="autoplay" controls></audio>
+    <script>
+
+    </script>
+    <!-- 开始页面 -->
+    <div id="canvas" class="main m" style="display: none;">
+        <div class="text"><img src="./images/text.png" alt=""></div>
+        <div class="start-btn">
+
+        </div>
+    </div>
+    <!-- 游戏开始页面 -->
+    <div class="start-game m">
+        <div id="main">
+            <div class="item"><img src="images/pop.png" alt=""></div>
+            <div class="item"><img src="images/pop.png" alt=""></div>
+            <div class="item"><img src="images/pop.png" alt=""></div>
+            <div class="item"><img src="images/pop.png" alt=""></div>
+        </div>
+        <!-- 蒙层 -->
+        <div class="meng"></div>
+        <!-- 头像 -->
+        <div class="preson z"><img src="images/person.png" alt=""></div>
+        <!-- 血条 -->
+        <div class="blood z">
+            <div class="xin"></div>
+            <div class="xin"></div>
+            <div class="xin"></div>
+            <!-- <div class="text fon">x6</div> -->
+        </div>
+        <!-- 金币 -->
+        <!-- <div class="gold z"> -->
+        <div class="money z"></div>
+        <div class="text fon z"><span>+</span>200</div>
+        <!-- <div class="addIcon z"></div> -->
+        <!-- </div> -->
+        <!-- 减速 -->
+        <div class="speed z"></div>
+        <!-- 炸弹 -->
+        <div class="boom z"></div>
+        <!-- 语音按钮 -->
+        <div class="voice z"></div>
+        <!-- 小狗 -->
+
+        <!-- yun -->
+        <div class="cloud"></div>
+        <div class="dog z"></div>
+        <!-- 草地 -->
+        <div class="grassland"></div>
+        <!-- 词汇 -->
+        <div class="words">
+            <div class="list fon" id="o">shu</div>
+            <div class="list fon">yi ge xin shu bao</div>
+            <div class="list fon">yi ge xin shu baoyi ge xin shu baoyi ge xin shu baoyi ge xin shu bao</div>
+            <div class="list fon">yi ge xin shu bao</div>
+            <div class="list fon">yi ge xin shu bao</div>
+            <div class="list fon">yi ge xin shu bao</div>
+            <div class="list fon">yi ge xin shu bao</div>
+            <div class="list fon">yi ge xin shu bao</div>
+            <div class="list fon">yi ge xin shu bao</div>
+            <div class="list fon">yi ge xin shu bao</div>
+            <div class="list fon">yi ge xin shu bao</div>
+            <div class="list fon">yi ge xin shu bao</div>
+            <div class="list fon">yi ge xin shu bao</div>
+            <div class="list fon">yi ge xin shu bao</div>
+        </div>
+
+    </div>
+    </div>
+    <!-- <canvas id="canvas" style="display: none;"></canvas> -->
+    <table width=" 100%" height="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#87CEEB">
+        <tr>
+            <td align="center" style="font-size:40px;" id='aas'>加载中....<span id="progress">0%</span>
+                <p>
+            <td>
+        </tr>
+    </table>
+
+
+    <script>
+        $(function () {
+
+            // 获取div的高度\
+            // console.log(document.querySelector('.words').style.height());
+            // console.log(document.getElementsByClassName('.words').clientHeight);
+
+
+
+            document.body.addEventListener('touchmove', function (e) {
+                e.preventDefault();
+            }, {
+                passive: false
+            }); //passive 参数不能省略，用来兼容ios和android
+
+
+
+
+
+            // console.log($(".words").height());
+            // setTimeout(() => {
+            var num = -$(".words").innerHeight()
+            console.log(num);
+            $('.words').css('top', num + 'px')
+            // }, 2000);
+            // $('.words').show()
+            // var num = $(".words").height()
+            var timer1 = setInterval(() => {
+                num++
+                if (num > (Math.ceil($(".start-game").innerHeight() + 10))) {
+                    alert('结束')
+                    window.clearInterval(timer1)
+                }
+                console.log(Math.ceil($(".start-game").innerHeight() + 10));
+
+                $('.words').css('top',
+                    num + 'px')
+                // console.log(num);
+            }, 20);
+
+            console.log(num);
+        })
+        // 获取当前父盒子宽度
+        // var winWidth = window.innerWidth;
+        // var w = $('#o').innerWidth();
+        // var cw = winWidth - w
+        // var ran = Math.ceil(Math.random() * cw);
+        // console.log(ran + '...');
+        // $('#o').css('marginLeft', ran + 'px')
+        // for (var i = 0; i < $('.list').length - 1; i++) {
+        //     console.log($('.list')[i].innerWidth());
+        //     console.log(i);
+        // }
+    </script>
+    <script>
+        var winWidth = window.innerWidth;
+        $(".list").each(function (index) {
+            var w = winWidth - $('.list').eq(index).innerWidth()
+            var ran = Math.ceil(Math.random() * (w - 20))
+            // console.log(ran);
+            $('.list').eq(index).css('marginLeft', ran + 'px')
+            //根据形参index设置元素的title属性
+            // console.log($('.list').eq(index).innerWidth());
+        })
+    </script>
+    <script>
+        var main = document.getElementById('main'); //取到小球父元素
+        var circles = main.getElementsByTagName('div'); //取到小球
+        var st = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'a', 'b', 'c', 'd', 'e', 'f'];
+        var json = [],
+            arr = [],
+            color = [];
+        var maxW = 0;
+        var maxH = 0;
+        var cwidth = circles[0].offsetWidth; //对象可见宽度
+        var cheight = circles[0].offsetHeight; //对象可见高度
+
+        //根据浏览器窗口的大小自动调节小球的运动空间
+        window.onresize = function () {
+            var main = document.getElementById('main');
+            maxW = window.innerWidth - circles[0].clientWidth; //小球运动的最大宽度
+            maxH = window.innerHeight - circles[0].clientHeight; //小球运动的最大高度
+            main.style.width = window.innerWidth + 'px';
+            main.style.height = window.innerHeight + 'px';
+
+        }
+        onresize();
+        //数组对象的初始化
+        for (var i = 0; i < circles.length; i++) {
+            arr = [];
+            for (var j = 0; j < 6; j++) {
+                color[j] = st[Math.floor(Math.random() * 16)]; //随机颜色
+            }
+            arr.x = Math.floor(Math.random() * (maxW + 1)); //初始x坐标
+            arr.y = Math.floor(Math.random() * (maxH + 1)); //初始y坐标
+            arr.cx = arr.x + circles[0].offsetWidth / 2; //圆心x坐标
+            arr.cy = arr.y + circles[0].offsetHeight / 2; //圆心y坐标
+            arr.movex = Math.floor(Math.random() * 2); //x轴移动方向
+            arr.movey = Math.floor(Math.random() * 2); //y轴移动方向
+            arr.bgolor = '#' + color.join(''); //随机生成一个6位字符串
+            arr.speed = 2 + Math.floor(Math.random() * 5);
+            //随机生成一个2~6之间的移动速度，也可以设为一个固定值（如果设置的改变速度太大，容易造成小球碰撞时两个小球之间有重合，也有可能小球会出界）
+            arr.timer = null; //计时器
+            arr.index = i; //索引值
+            json.push(arr);
+            circles[i].style.left = arr.x + 'px'; //小球位置初始化
+            circles[i].style.top = arr.y + 'px'; //小球位置初始化
+            circles[i].style.backgroundColor = arr.bgolor; //小球背景颜色初始化
+        }
+        //碰撞函数
+        function crash(a) {
+            var ball1x = json[a].cx;
+            var ball1y = json[a].cy;
+            for (var i = 0; i < json.length; i++) {
+                if (i != a) {
+                    var ball2x = json[i].cx;
+                    var ball2y = json[i].cy;
+                    //圆心距离的平方
+                    var len = (ball1x - ball2x) * (ball1x - ball2x) + (ball1y - ball2y) * (ball1y - ball2y);
+                    if (len <= cwidth * cwidth) {
+                        //小球位置的判断，发生碰撞反应
+                        if (ball1x > ball2x) {
+                            if (ball1y > ball2y) {
+                                json[a].movex = 1;
+                                json[a].movey = 1;
+                            } else if (ball1y < ball2y) {
+                                json[a].movex = 1;
+                                json[a].movey = 0;
+                            } else {
+                                json[a].movex = 1;
+                            }
+                        } else if (ball1x < ball2x) {
+                            if (ball1y > ball2y) {
+                                json[a].movex = 0;
+                                json[a].movey = 0;
+                            } else if (ball1y < ball2y) {
+                                json[a].movex = 0;
+                                json[a].movey = 1;
+                            } else {
+                                json[a].movex = 0;
+                            }
+                        } else {
+                            if (ball1y > ball2y) {
+                                json[a].movey = 1;
+                            } else if (ball1y < ball2y) {
+                                json[a].movey = 0;
+                            }
+                        }
+                    }
+                }
+
+            }
+        }
+        //移动函数
+        function move(circle) {
+            circle.timer = setInterval(function () {
+                if (circle.movex == 1) {
+                    circle.x += circle.speed;
+                    if (circle.x + circle.speed >= maxW) { //防止小球出界
+                        circle.x = maxW;
+                        circle.movex = 0; //小球运动方向发生改变
+                    }
+                } else {
+                    circle.x -= circle.speed;
+                    if (circle.x - circle.speed <= 0) {
+                        circle.x = 0;
+                        circle.movex = 1;
+                    }
+                }
+                if (circle.movey == 1) {
+                    circle.y += circle.speed;
+                    if (circle.y + circle.speed >= maxH) {
+                        circle.y = maxH;
+                        circle.movey = 0;
+                    }
+                } else {
+                    circle.y -= circle.speed;
+                    if (circle.y - circle.speed <= 0) {
+                        circle.y = 0;
+                        circle.movey = 1;
+                    }
+                }
+                circle.cx = circle.x + circles[0].offsetWidth / 2; //小球每一次运动圆心都会发生改变
+                circle.cy = circle.y + circles[0].offsetHeight / 2;
+                circles[circle.index].style.left = circle.x + 'px'; //小球位置重定位
+                circles[circle.index].style.top = circle.y + 'px';
+                crash(circle.index);
+            }, 80);
+        }
+        //对每一个小球绑定计时器，让小球动起来
+        for (var i = 0; i < circles.length; i++) {
+            move(json[i]);
+        }
+    </script>
+    <script src="js/main.js"></script>
+</body>
+
+</html>
