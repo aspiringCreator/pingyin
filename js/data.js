@@ -8,8 +8,9 @@
  */
 var manifestList = [
     {"src":"../css/font.TTF"},
-   {"src":"../images/drum_1.mp3"},
-   {"src":"../images/bg.png"},
-   {"src":"../images/btn.png"},
-   {"src":"../images/text.png"},
+    {"src":"../images/drum_1.mp3"},
+    {"src":"../images/bg.png"},
+    {"src":"../images/btn.png"},
+    {"src":"../images/text.png"},
+
 ]

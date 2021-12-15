@@ -162,6 +162,34 @@ textarea {
   right: 0.2rem;
   bottom: 2.91rem;
 }
+.start-game .circle {
+  width: 0.78rem;
+  height: 0.37rem;
+  background: url(../images/circle.png) no-repeat;
+  background-size: 100% 100%;
+  position: absolute;
+  z-index: 10;
+}
+.start-game .circle1 {
+  left: 1.44rem;
+  bottom: 1.82rem;
+}
+.start-game .circle2 {
+  left: 2.58rem;
+  bottom: 1.92rem;
+}
+.start-game .circle3 {
+  left: 3.62rem;
+  bottom: 1.98rem;
+}
+.start-game .circle4 {
+  left: 4.74rem;
+  bottom: 1.92rem;
+}
+.start-game .circle5 {
+  left: 5.92rem;
+  bottom: 1.82rem;
+}
 .start-game .voice {
   width: 1.23rem;
   height: 1.5rem;
