@@ -1,0 +1,40 @@
+<!--
+ * @Author: your name
+ * @Date: 2021-12-16 13:55:12
+ * @LastEditTime: 2021-12-16 14:55:52
+ * @LastEditors: Please set LastEditors
+ * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ * @FilePath: \ccit-webe:\创正2021年\创正11月\拼音小游戏\11.html
+-->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" type="text/css" href="./css/Boom.css">
+    <title>BoomJS演示Demo</title>
+</head>
+
+<style>
+
+</style>
+
+<body>
+    <img src="images/boom.png" alt="">
+
+
+
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="./js/Boom.js"></script>
+    <div class="btn-click">点我BOOM</div>
+    <script>
+        $(".btn-click").on("click", function (c) {
+            // boom($('div'))
+            boom($('img'))
+            $('p').fadeOut(1000)
+        })
+    </script>
+
+</body>
+
+</html>

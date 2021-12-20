@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-12-08 16:02:30
- * @LastEditTime: 2021-12-14 15:45:24
+ * @LastEditTime: 2021-12-17 11:18:18
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \ccit-webe:\创正2021年\创正11月\拼音小游戏\js\main.js
@@ -31,6 +31,7 @@
 
     function handleComplete() {
         document.querySelector('#canvas').style.display  = 'block';
+        // document.querySelector('.start-game').style.opacity  = '1';
         document.querySelector('table').style.display = 'none';
         var canvas = document.getElementById('canvas')
         canvas.width = window.innerWidth;

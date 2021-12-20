@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-11-30 15:48:30
- * @LastEditTime: 2021-12-15 12:07:56
+ * @LastEditTime: 2021-12-17 15:25:23
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \ccit-webe:\创正2021年\创正11月\拼音小游戏\index.html
@@ -16,10 +16,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <title>首页</title>
     <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
-    <script type="text/javascript">
+    <!-- <script type="text/javascript">
         define = null;
         require = null;
-    </script>
+    </script> -->
 
 
     <script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.6.0.js"></script>
@@ -30,8 +30,8 @@
     <script src="js/lib-flexible.js"></script>
     <script src="./js/data.js"></script>
     <link rel="stylesheet" href="css/index.css">
-
-
+    <script src="./js/pinyin.js"></script>
+    <script src="./js/pinyin2.js"></script>
     <style>
         * {
             margin: 0;
@@ -90,9 +90,7 @@
 
 <body>
     <!-- <audio style="display: none;" id="bg-music" src="./images/drum_1.mp3" autoplay="autoplay" controls></audio> -->
-    <script>
 
-    </script>
     <!-- 开始页面 -->
     <div id="canvas" class="main m" style="display: none;">
         <div class="text"><img src="./images/text.png" alt=""></div>
@@ -145,21 +143,8 @@
         <div class="grassland"></div>
 
         <!-- 词汇 -->
-        <div class="words" style="opacity: 0;">
-            <div class="list fon">shu</div>
-            <div class="list fon">yi ge xin shu bao</div>
-            <div class="list fon">yi ge xin shu baoyi ge xin shu baoyi</div>
-            <div class="list fon">yi ge xin shu bao</div>
-            <div class="list fon">yi ge xin shu bao</div>
-            <div class="list fon">yi ge xin shu bao</div>
-            <div class="list fon">yi ge xin shu bao</div>
-            <div class="list fon">yi ge xin shu bao</div>
-            <div class="list fon">yi ge xin shu bao</div>
-            <div class="list fon">yi ge xin shu bao</div>
-            <div class="list fon">yi ge xin shu bao</div>
-            <div class="list fon">yi ge xin shu bao</div>
-            <div class="list fon">yi ge xin shu bao</div>
-            <div class="list fon">yi ge xin shu bao</div>
+        <div class="words" id="words" style="opacity: 0;">
+
         </div>
         <!-- <div style="position: absolute;top: 5%; z-index: 111111;left: 19%;">
             <button class="btn btn_primary" id="startRecord">开始录音接口</button>
@@ -199,39 +184,137 @@
             }
         </style>
     </div>
+    <!-- 注册信息页面 -->
+    <div class="register" style="display: none;">
+        <div class="nextBtn"></div>
+        <div class="listBox">
+            <label for="">头像:</label>
+            <div class="r"><img src="images/person.png" alt=""></div>
+        </div>
+        <div class="listBox">
+            <label for="">姓名:</label>
+            <input type="text" class="r" placeholder="请输入您的姓名">
+        </div>
+        <div class="listBox">
+            <label for="">性别:</label>
+            <select class="r rr" name="" id="" dir="rtl">
+                <option disabled selected value="">请选择性别</option>
+                <option value="">男</option>
+                <option value="">女</option>
+            </select>
+        </div>
+        <div class="listBox">
+            <label for="">生日:</label>
+            <input type="text" class="r" placeholder="请输入您的生日">
+        </div>
+        <div class="listBox">
+            <label for="">手机号码:</label>
+            <input type="text" class="r" placeholder="请输入您的手机号码">
+        </div>
+        <div class="listBox">
+            <label for="">所在地:</label>
+            <select class="r rr" name="" id="" dir="rtl">
+                <option disabled selected value="" style="color: #e0f3ff;">请选择所在地</option>
+                <option value="">上海</option>
+                <option value="">女</option>
+            </select>
+        </div>
+        <div class="listBox">
+            <label for="">详细地址:</label>
+            <input type="text" class="r" placeholder="请输入您的详细地址">
+        </div>
+        <div class="submitBtn"></div>
     </div>
-    <!-- <canvas id="canvas" style="display: none;"></canvas> -->
+    <!-- 关数 退出 分数 -->
+    <div class="grade" style="display: none;">
+        <div class="nextBtn"></div>
+        <div class="share"></div>
+        <div class="person"><img src="images/person.png" alt=""></div>
+        <div class="name">殷桃小丸子</div>
+        <div class="result">
+            <div class="t">获得分数：<span>8000</span></div>
+            <div class="b">已闯关数：<span>5/</span><i>6</i></div>
+        </div>
+        <div class="guan">
+            <div>第一关</div>
+            <div>第二关</div>
+            <div>第三关</div>
+            <div>第四关</div>
+            <div>第五关</div>
+            <div>第六关</div>
+        </div>
+        <div class="exit"></div>
+    </div>
+
     <table width=" 100%" height="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#87CEEB">
         <tr>
-            <td align="center" style="font-size:40px;" id='aas'>加载中....<span id="progress">0%</span>
+            <td align="center" style="font-size:40px;" id='aas'><span id="progress">0%</span>
                 <p>
             <td>
         </tr>
     </table>
 
-    <script src="js/comment.js"></script>
+    <script src="js/main.js"></script>
     <script>
+        var dataArr
+        dataArr = ['就会加快交换机哈哈哈哈哈哈可考虑', '就会加快', '哈哈', '就会加快', '就会加快', '就会加快', '就会加快', '就会加快', '就会加快']
+            .reverse().toString()
+        dataArr = pinyinUtil.getPinyin(dataArr, ' ', true).split(',');
+        console.log(dataArr);
+        // var str1 = "jfkl哈哈jalk,.23@#!$$k~!。  @#$%^&*()(_+-=|\{}[]';:,，./<>??gg  g~```gf";
+        // str11 = str1.replace(
+        //     /[\ |\~|\`|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\-|\_|\+|\=|\||\\|\[|\]|\{|\}|\;|\:|\"|\'|\,|\<|\.|\>|\/|\?|\。|\，]/g,
+        //     "");
+        // alert(str11);
         $(function () {
-            // 获取div的高度\
-            document.body.addEventListener('touchmove', function (e) {
-                e.preventDefault();
-            }, {
-                passive: false
-            }); //passive 参数不能省略，用来兼容ios和android
-            // window.clearInterval(timer1)
+            // 阻止用户手机向上滑动
+            function default1(ele) {
+                document.querySelector(ele).addEventListener('touchmove', function (e) {
+                    e.preventDefault();
+                }, {
+                    passive: false
+                });
+            }
+            default1('.start-game')
+            default1('#canvas')
+            default1('body')
+
+
+
+            var str = ''
+
+            for (var i = 0; i < dataArr.length; i++) {
+
+                str += `<div class='list fon'>${dataArr[i]}</div>`;
+            };
+
+            document.getElementById("words").innerHTML = str;
+            var index = dataArr.indexOf("哈哈")
+            $('.dog').click(function () {
+                console.log(1);
+                $('.words .list').eq(index).css('opacity', 0);
+            })
+            $('.listBox select').change(function () {
+                $(this).css('color', '#e0f3ff')
+            })
+            //开始按钮进入游戏页面
+            $('body').on('click', '.start-btn', function () {
+                alert(1)
+                $('#canvas').hide()
+                $('.start-game').css('opacity', '1')
+                startInterval()
+            })
+
+
             var intervalBox; //interval定时器存储器
             var num = -$(".words").innerHeight()
-            //设置interval定时器
             var winWidth = window.innerWidth;
             $(".list").each(function (index) {
                 var w = winWidth - $('.list').eq(index).innerWidth()
-                var ran = Math.ceil(Math.random() * (w - 20))
-                // console.log(ran);
+                var ran = Math.ceil(Math.random() * (w - 50))
                 $('.list').eq(index).css('marginLeft', ran + 'px')
-                //根据形参index设置元素的title属性
-                // console.log($('.list').eq(index).innerWidth());
             })
-
+            //初始化定时器
             function startInterval() {
 
                 console.log(num);
@@ -252,12 +335,7 @@
             function stopInterval() {
                 clearInterval(intervalBox); //清除interval定时器
             }
-            //开始按钮进入游戏页面
-            $('.start-btn').click(function () {
-                $('#canvas').hide()
-                $('.start-game').css('opacity', '1')
-                startInterval()
-            })
+
             //单词从头开始下落
             $('.boom').click(function () {
                 stopInterval()
@@ -282,12 +360,24 @@
                 }
             })
         })
+        // console.log(Pinyin.getFullChars('管理员'));
     </script>
+    <script src="js/comment.js"></script>
     <script>
+        // function getPinyin() {
+        //     var value = document.querySelectorAll('.words .list');
+        //     console.log(value);
+        //     for (var i = 0; i < value.length; i++) {
+        //         console.log(pinyinUtil.getPinyin(value[i].innerHTML, ' ', true));
+        //         value[i].innerHTML = pinyinUtil.getPinyin(value[i].innerHTML, ' ', true)
+        //     }
+        // }
 
+
+        // getPinyin();
     </script>
 
-    <script src="js/main.js"></script>
+
 </body>
 
 </html>

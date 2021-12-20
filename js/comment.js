@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-12-10 14:02:10
- * @LastEditTime: 2021-12-14 15:05:31
+ * @LastEditTime: 2021-12-20 10:16:21
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \ccit-webe:\创正2021年\创正11月\拼音小游戏\js\comment.js
@@ -111,15 +111,28 @@ var pagetUrl = window.location.href;
                 $('#startRecord').show()
                 // event.preventDefault();
                 // btnRecord.removeClass('hold');
+                var sendDate = (new Date()).getTime();
                 // 间隔太短
                 wx.stopRecord({
+
                     success: function (res) {
                         voice.localId = res.localId;
+
                         wx.translateVoice({
                             localId: voice.localId,
+                            isShowProgressTips: 0, // 默认为1，显示进度提示
                             complete: function (res) {
                               if (res.hasOwnProperty('translateResult')) {
-                                alert('识别结果：' + res.translateResult);
+                                var receiveDate = (new Date()).getTime();
+                                var responseTimeMs = receiveDate - sendDate;
+                                alert(responseTimeMs)
+                                alert( res.translateResult.replace(
+                                    /[\ |\~|\`|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\-|\_|\+|\=|\||\\|\[|\]|\{|\}|\;|\:|\"|\'|\,|\<|\.|\>|\/|\?|\。|\，|\？]/g,
+                                    ""));
+
+
+
+                                $('.words .list').html(res.translateResult)
                               } else {
                                 alert('无法识别');
                               }
@@ -193,5 +206,6 @@ var pagetUrl = window.location.href;
             };
 
         });
+
 
 

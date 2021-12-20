@@ -63,11 +63,13 @@ textarea {
   height: 100%;
 }
 .main .start-btn {
+  cursor: pointer;
   width: 4.62rem;
   height: 1.13rem;
   position: absolute;
   bottom: 0.86rem;
   left: 50%;
+  z-index: 15;
   transform: translateX(-50%);
   background: url(../images/btn.png) no-repeat;
   background-size: 100% 100%;
@@ -216,7 +218,6 @@ textarea {
   width: 100%;
   height: auto;
   padding: 0 0.2rem;
-  transform: rotate(180deg);
 }
 .start-game .words .list {
   padding: 0.38rem 0.45rem;
@@ -229,7 +230,6 @@ textarea {
   color: #fff;
   max-width: 90%;
   margin-bottom: 20px;
-  transform: rotate(180deg);
 }
 .start-game .words .list:last-child {
   margin-bottom: 0;
@@ -266,4 +266,176 @@ textarea {
 }
 div {
   box-sizing: border-box;
+}
+.register {
+  height: auto;
+  background: #7cc3fc url(../images/yunFooter.png) no-repeat center bottom;
+  background-size: 100% 2.81rem;
+  position: absolute;
+  top: 0;
+  z-index: 10;
+  width: 100%;
+  padding-bottom: 0.8rem;
+  padding-top: 0.14rem;
+}
+.register .nextBtn {
+  width: 1.34rem;
+  height: 1.1rem;
+  background: url(../images/nextBtn.png) no-repeat;
+  background-size: 100% 100%;
+  margin-bottom: 0.56rem;
+}
+.register .listBox {
+  display: flex;
+  width: 6.59rem;
+  min-height: 1.17rem;
+  background: url(../images/kuang.png) no-repeat;
+  background-size: 100% 100%;
+  margin: auto;
+  margin-bottom: 0.2rem;
+  justify-content: space-between;
+  padding-left: 0.44rem;
+  padding-right: 0.34rem;
+  font-family: 'my-font';
+  align-items: center;
+  font-size: 0.3rem;
+  color: #e0f3ff;
+  text-align: right;
+}
+.register .listBox .r {
+  height: 100%;
+  width: 60%;
+  display: flex;
+  justify-content: flex-end;
+  font-family: 'my-font';
+  background: transparent;
+  border: none;
+  text-align: right;
+  outline: none;
+  font-size: 0.3rem;
+  color: #e0f3ff;
+}
+.register .listBox .r img {
+  width: 0.8rem;
+  height: 0.8rem;
+}
+.register .listBox .rr {
+  font-size: 0.3rem;
+  color: #95c8ee;
+  width: auto !important;
+  direction: rtl;
+}
+.register .listBox input::placeholder {
+  font-family: 'my-font';
+  letter-spacing: 2px;
+  color: #95c8ee !important;
+  text-align: right;
+  font-size: 0.3rem;
+}
+.register .submitBtn {
+  width: 3.82rem;
+  height: 1.03rem;
+  background: url(../images/submitBtn.png) no-repeat;
+  background-size: 100% 100%;
+  margin: auto;
+  margin-top: 0.7rem;
+}
+.grade {
+  min-height: 100%;
+  font-family: 'my-font';
+  background: #7cc3fc url(../images/yunFooter.png) no-repeat center bottom;
+  background-size: 100% 2.81rem;
+  position: absolute;
+  top: 0;
+  z-index: 10;
+  width: 100%;
+  padding-bottom: 0.8rem;
+  padding-top: 4.8rem;
+}
+.grade .nextBtn {
+  width: 1.34rem;
+  height: 1.1rem;
+  background: url(../images/nextBtn.png) no-repeat;
+  background-size: 100% 100%;
+  margin-bottom: 0.56rem;
+  position: absolute;
+  top: 0.14rem;
+  left: 0;
+}
+.grade .share {
+  width: 1.27rem;
+  height: 1.3rem;
+  background: url(../images/shareBtn.png) no-repeat;
+  background-size: 100% 100%;
+  margin-bottom: 0.56rem;
+  position: absolute;
+  right: 0.4rem;
+  top: 0.14rem;
+}
+.grade .person {
+  width: 2.4rem;
+  height: 2.4rem;
+  background: url(../images/personBg.png) no-repeat;
+  background-size: 100% 100%;
+  display: flex;
+  position: absolute;
+  top: 0.8rem;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.grade .person img {
+  margin: auto;
+  width: 1.9rem;
+  height: 1.9rem;
+  margin-top: 0.15rem;
+}
+.grade .name {
+  position: absolute;
+  top: 3.18rem;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #fff;
+  font-size: 0.3rem;
+}
+.grade .result {
+  width: 6.66rem;
+  margin: auto;
+  margin-bottom: 0.6rem;
+  border-radius: 0.2rem;
+  border: 4px solid #4ed1f4;
+  background: #2588d4;
+  color: #e0f3ff;
+  padding: 0.4rem 0.5rem;
+  letter-spacing: 4px;
+  box-shadow: 0px 0px 7px #1e7cc4;
+  text-shadow: 5px 5px 5px #1e7cc4;
+}
+.grade .result i {
+  color: #79cbff;
+}
+.grade .guan {
+  width: 6.66rem;
+  margin: auto;
+  margin-bottom: 0.9rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+.grade .guan div {
+  width: 2.11rem;
+  height: 1.17rem;
+  text-align: center;
+  line-height: 1.17rem;
+  color: #e0f3ff;
+  background: url(../images/active.png) no-repeat;
+  background-size: 100% 100%;
+  margin-bottom: 0.25rem;
+}
+.grade .exit {
+  width: 3.83rem;
+  height: 1.2rem;
+  background: url(../images/exitBtn.png) no-repeat;
+  background-size: 100% 100%;
+  margin: auto;
+  margin-bottom: 0.5rem;
 }
