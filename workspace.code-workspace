@@ -1,0 +1,45 @@
+{
+    "folders": [
+		{
+			"path": "C:\\Users\\19941022\\Desktop\\ccit-web"
+		},
+		{
+			"path": "..\\.."
+		},
+		{
+			"path": "..\\..\\..\\2021年学习笔记"
+		},
+		{
+			"path": "..\\..\\..\\BaiduNetdiskDownload"
+		},
+		{
+			"path": "c:\\Users\\19941022\\Documents\\Tencent Files\\3012676711\\FileRecv\\垃圾分类"
+		},
+		{
+			"path": "..\\..\\..\\创正\\创正 2020 11\\创正2月\\创正"
+		}
+	],
+    "settings": {
+        "liveServer.settings.multiRootWorkspaceName": "创正",
+        "browser-preview.startUrl": "http://localhost:8080/",
+        "browser-preview.ignoreHttpsErrors": true,
+        "browser-preview.verbose": false,
+        "browser-preview.chromeExecutable": "http://localhost:8080/"
+    },
+    "launch": {
+        "version": "0.2.0",
+        "configurations": [
+            {
+                "type": "browser-preview",
+                "name": "Browser Preview: Attach",
+                "request": "attach"
+            },
+            {
+                "type": "browser-preview",
+                "request": "launch",
+                "name": "Browser Preview: Launch",
+                "url": "http://localhost:3000"
+            }
+        ]
+    }
+}

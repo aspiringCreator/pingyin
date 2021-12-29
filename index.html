@@ -1,19 +1,23 @@
 <!--
  * @Author: your name
  * @Date: 2021-11-30 15:48:30
- * @LastEditTime: 2021-12-17 15:25:23
+ * @LastEditTime: 2021-12-29 11:25:09
  * @LastEditors: Please set LastEditors
- * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/
+
+%E9%85%8D%E7%BD%AE
  * @FilePath: \ccit-webe:\创正2021年\创正11月\拼音小游戏\index.html
 -->
-
+<!-- 小鱼！珊珊！ -->
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-
+
+scalable=0">
     <title>首页</title>
     <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
     <!-- <script type="text/javascript">
@@ -32,6 +36,9 @@
     <link rel="stylesheet" href="css/index.css">
     <script src="./js/pinyin.js"></script>
     <script src="./js/pinyin2.js"></script>
+    <script src="./js/axios.min.js"></script>
+    <script src="./js/vue.min.js"></script>
+    <script type="text/javascript" src="./js/Boom.js"></script>
     <style>
         * {
             margin: 0;
@@ -85,68 +92,91 @@
             top: 50%;
             transform: translate(-50%, -50%);
         }
+
+        /* #main {
+            transition: 1s;
+        } */
+
+        .active {
+            transition: width 1s;
+            width: 1.43rem !important;
+            height: 1.65rem !important;
+        }
     </style>
 </head>
 
 <body>
-    <!-- <audio style="display: none;" id="bg-music" src="./images/drum_1.mp3" autoplay="autoplay" controls></audio> -->
+    <!-- <audio style="display: none;" id="bg-music" src="./images/drum_1.mp3" autoplay="autoplay"
 
-    <!-- 开始页面 -->
-    <div id="canvas" class="main m" style="display: none;">
-        <div class="text"><img src="./images/text.png" alt=""></div>
-        <div class="start-btn">
+controls></audio> -->
+    <div id="app" style="height: 100%;">
 
-        </div>
-    </div>
-    <!-- 游戏开始页面 -->
-    <div class="start-game m" style="opacity: 0;">
-        <div id="main">
-            <div class="item"><img src="images/pop.png" alt=""></div>
-            <div class="item"><img src="images/pop.png" alt=""></div>
-            <div class="item"><img src="images/pop.png" alt=""></div>
-            <div class="item"><img src="images/pop.png" alt=""></div>
-        </div>
-        <!-- 蒙层 -->
-        <div class="meng"></div>
-        <!-- 头像 -->
-        <div class="preson z"><img src="images/person.png" alt=""></div>
-        <!-- 血条 -->
-        <div class="blood z">
-            <div class="xin"></div>
-            <div class="xin"></div>
-            <div class="xin"></div>
-            <!-- <div class="text fon">x6</div> -->
-        </div>
-        <!-- 金币 -->
-        <!-- <div class="gold z"> -->
-        <div class="money z"></div>
-        <div class="text fon z"><span>+</span>200</div>
-        <!-- <div class="addIcon z"></div> -->
-        <!-- </div> -->
-        <!-- 减速 -->
-        <div class="speed z"></div>
-        <!-- 炸弹 -->
-        <div class="boom z"></div>
-        <!-- 语音按钮 -->
-        <div class="voice z" id="dom"></div>
-        <!-- yun -->
-        <div class="cloud"></div>
-        <!-- 小狗 -->
-        <div class="dog z"></div>
-        <!-- 圈 -->
-        <div class="circle circle1"></div>
-        <div class="circle circle2"></div>
-        <div class="circle circle3"></div>
-        <div class="circle circle4"></div>
-        <div class="circle circle5"></div>
-        <!-- 草地 -->
-        <div class="grassland"></div>
 
-        <!-- 词汇 -->
-        <div class="words" id="words" style="opacity: 0;">
+        <!-- 开始页面 -->
+        <div id="canvas" class="main m" style="display: none;">
+            <div class="text"><img src="./images/text.png" alt=""></div>
+            <div class="start-btn" @click='startBtn'>
 
+            </div>
         </div>
-        <!-- <div style="position: absolute;top: 5%; z-index: 111111;left: 19%;">
+        <!-- 游戏开始页面 -->
+        <div class="popt" v-show='pop'>
+            <div class="continer">
+                <div class="t">识别中...</div>
+            </div>
+        </div>
+        <div class="start-game m" style="opacity: 0;">
+            <div id="main">
+                <div class="item"><img src="images/pop.png" alt=""></div>
+                <div class="item"><img src="images/pop.png" alt=""></div>
+                <div class="item"><img src="images/pop.png" alt=""></div>
+                <div class="item"><img src="images/pop.png" alt=""></div>
+            </div>
+            <!-- 蒙层 -->
+            <div class="meng"></div>
+            <!-- 头像 -->
+            <div class="preson z" @click='personBtn'><img src="images/person.png" alt=""></div>
+            <!-- 血条 -->
+            <div class="blood z">
+                <div class="xin"></div>
+                <div class="xin"></div>
+                <div class="xin"></div>
+                <!-- <div class="text fon">x6</div> -->
+            </div>
+            <!-- 金币 -->
+            <!-- <div class="gold z"> -->
+            <div class="money z" @click='moneyBtn'></div>
+            <div class="text fon z"><span>+</span>{{money}}</div>
+            <!-- <div class="addIcon z"></div> -->
+            <!-- </div> -->
+            <!-- 减速 -->
+            <div class="speed z" @click='speedBtn'></div>
+            <!-- 炸弹 -->
+            <div class="boom  z" @click='boomBtn'></div>
+            <!-- 语音按钮 -->
+            <div :class="{voice:true,z:true,active:active}" id="dom" @touchstart='fn1' @touchend="fn2"></div>
+            <!-- yun -->
+            <div class="cloud"></div>
+            <!-- 小狗 -->
+            <div class="dog z" @click='dog'></div>
+            <!-- 圈 -->
+            <div class="circle circle1"></div>
+            <div class="circle circle2"></div>
+            <div class="circle circle3"></div>
+            <div class="circle circle4"></div>
+            <div class="circle circle5"></div>
+            <!-- 草地 -->
+            <div class="grassland"></div>
+
+            <!-- 词汇 -->
+            <div class="words" id="words" style="opacity: 0;">
+                <div class="list fon" v-for='(item,id) in dataArr' :key='item.content_id'>
+                    <div>{{item.pinyin}}</div>
+                    <img class="img1" src="images/boom.png" alt="">
+                </div>
+            </div>
+
+            <!-- <div style="position: absolute;top: 5%; z-index: 111111;left: 19%;">
             <button class="btn btn_primary" id="startRecord">开始录音接口</button>
             <button class="btn btn_primary" id="stopRecord">停止录音接口</button>
             <button class="btn btn_primary" id="playVoice">播放语音接口</button>
@@ -154,98 +184,118 @@
 
         </div> -->
 
-        <style>
-            .btn {
-                width: 100%;
-                border: 0;
-                outline: 0;
-                -webkit-appearance: none;
-                margin-bottom: 15px;
-                background-color: #04be02;
-                display: block;
-                margin-left: auto;
-                margin-right: auto;
-                padding-left: 14px;
-                padding-right: 14px;
-                font-size: 18px;
-                text-align: center;
-                text-decoration: none;
-                overflow: visible;
-                height: 42px;
-                border-radius: 5px;
-                -moz-border-radius: 5px;
-                -webkit-border-radius: 5px;
-                box-sizing: border-box;
-                -moz-box-sizing: border-box;
-                -webkit-box-sizing: border-box;
-                color: #ffffff;
-                line-height: 42px;
-                -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
-            }
-        </style>
-    </div>
-    <!-- 注册信息页面 -->
-    <div class="register" style="display: none;">
-        <div class="nextBtn"></div>
-        <div class="listBox">
-            <label for="">头像:</label>
-            <div class="r"><img src="images/person.png" alt=""></div>
-        </div>
-        <div class="listBox">
-            <label for="">姓名:</label>
-            <input type="text" class="r" placeholder="请输入您的姓名">
-        </div>
-        <div class="listBox">
-            <label for="">性别:</label>
-            <select class="r rr" name="" id="" dir="rtl">
-                <option disabled selected value="">请选择性别</option>
-                <option value="">男</option>
-                <option value="">女</option>
-            </select>
-        </div>
-        <div class="listBox">
-            <label for="">生日:</label>
-            <input type="text" class="r" placeholder="请输入您的生日">
-        </div>
-        <div class="listBox">
-            <label for="">手机号码:</label>
-            <input type="text" class="r" placeholder="请输入您的手机号码">
-        </div>
-        <div class="listBox">
-            <label for="">所在地:</label>
-            <select class="r rr" name="" id="" dir="rtl">
-                <option disabled selected value="" style="color: #e0f3ff;">请选择所在地</option>
-                <option value="">上海</option>
-                <option value="">女</option>
-            </select>
-        </div>
-        <div class="listBox">
-            <label for="">详细地址:</label>
-            <input type="text" class="r" placeholder="请输入您的详细地址">
-        </div>
-        <div class="submitBtn"></div>
-    </div>
-    <!-- 关数 退出 分数 -->
-    <div class="grade" style="display: none;">
-        <div class="nextBtn"></div>
-        <div class="share"></div>
-        <div class="person"><img src="images/person.png" alt=""></div>
-        <div class="name">殷桃小丸子</div>
-        <div class="result">
-            <div class="t">获得分数：<span>8000</span></div>
-            <div class="b">已闯关数：<span>5/</span><i>6</i></div>
-        </div>
-        <div class="guan">
-            <div>第一关</div>
-            <div>第二关</div>
-            <div>第三关</div>
-            <div>第四关</div>
-            <div>第五关</div>
-            <div>第六关</div>
-        </div>
-        <div class="exit"></div>
-    </div>
 
+        </div>
+        <!-- 注册信息页面 -->
+        <div class="register" style="display: none;">
+            <div class="nextBtn"></div>
+            <div class="listBox">
+                <label for="">头像:</label>
+                <div class="r"><img src="images/person.png" alt=""></div>
+            </div>
+            <div class="listBox">
+                <label for="">姓名:</label>
+                <input type="text" class="r" placeholder="请输入您的姓名">
+            </div>
+            <div class="listBox">
+                <label for="">性别:</label>
+                <select class="r rr" name="" id="" dir="rtl">
+                    <option disabled selected value="">请选择性别</option>
+                    <option value="">男</option>
+                    <option value="">女</option>
+                </select>
+            </div>
+            <div class="listBox">
+                <label for="">生日:</label>
+                <input type="text" class="r" placeholder="请输入您的生日">
+            </div>
+            <div class="listBox">
+                <label for="">手机号码:</label>
+                <input type="text" class="r" placeholder="请输入您的手机号码">
+            </div>
+            <div class="listBox">
+                <label for="">所在地:</label>
+                <select class="r rr" name="" id="" dir="rtl">
+                    <option disabled selected value="" style="color: #e0f3ff;">请选择所在地</option>
+                    <option value="">上海</option>
+                    <option value="">女</option>
+                </select>
+            </div>
+            <div class="listBox">
+                <label for="">详细地址:</label>
+                <input type="text" class="r" placeholder="请输入您的详细地址">
+            </div>
+            <div class="submitBtn"></div>
+        </div>
+        <!-- 关数 退出 分数 -->
+        <div class="grade" style="display: none;">
+            <div class="nextBtn" @click='nextBtn'></div>
+            <div class="share"></div>
+            <div class="person"><img src="images/person.png" alt=""></div>
+            <div class="name">殷桃小丸子</div>
+            <div class="result">
+                <div class="t">获得分数：<span>8000</span></div>
+                <div class="b">已闯关数：<span>5/</span><i>6</i></div>
+            </div>
+            <div class="guan">
+                <div>第一关</div>
+                <div>第二关</div>
+                <div>第三关</div>
+                <div>第四关</div>
+                <div>第五关</div>
+                <div>第六关</div>
+            </div>
+            <div class="guan" style="margin-bottom: .25rem;">
+                <div>自定义+</div>
+                <div>自定义+</div>
+            </div>
+            <div class=""></div>
+            <div class="exit"></div>
+        </div>
+        <!-- 自定义关卡 -->
+        <div class="custom">
+            <div class="nextBtn"></div>
+            <div class="text">自定义关卡</div>
+            <div class="shu">请输入汉字(将转换成下落拼音)</div>
+            <input type="text" placeholder="请输入汉字" v-model='textword' class="te">
+            <div class="add" @click='addBtn'></div>
+            <div class="addKuang">
+                <div class="continer">
+                <div class="list">
+                    <div>1</div>
+                    <div>开开心开开心开开心开开心开开心开开心开开心开开心开开心开开心开开心开开心</div>
+                    <div></div>
+                </div>
+                <div class="list">
+                    <div>1</div>
+                    <div>开开开心</div>
+                    <div></div>
+                </div>
+                <div class="list">
+                    <div>1</div>
+                    <div>开开开心</div>
+                    <div></div>
+                </div>
+                <div class="list">
+                    <div>1</div>
+                    <div>开开开心</div>
+                    <div></div>
+                </div>
+                <div class="list">
+                    <div>1</div>
+                    <div>开开开心</div>
+                    <div></div>
+                </div>
+                <div class="list">
+                    <div>1</div>
+                    <div>开开开心</div>
+                    <div></div>
+                </div>
+            </div>
+            </div>
+            <div class="baocunBtn"></div>
+        </div>
+    </div>
     <table width=" 100%" height="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#87CEEB">
         <tr>
             <td align="center" style="font-size:40px;" id='aas'><span id="progress">0%</span>
@@ -256,126 +306,338 @@
 
     <script src="js/main.js"></script>
     <script>
-        var dataArr
-        dataArr = ['就会加快交换机哈哈哈哈哈哈可考虑', '就会加快', '哈哈', '就会加快', '就会加快', '就会加快', '就会加快', '就会加快', '就会加快']
-            .reverse().toString()
-        dataArr = pinyinUtil.getPinyin(dataArr, ' ', true).split(',');
-        console.log(dataArr);
-        // var str1 = "jfkl哈哈jalk,.23@#!$$k~!。  @#$%^&*()(_+-=|\{}[]';:,，./<>??gg  g~```gf";
-        // str11 = str1.replace(
-        //     /[\ |\~|\`|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\-|\_|\+|\=|\||\\|\[|\]|\{|\}|\;|\:|\"|\'|\,|\<|\.|\>|\/|\?|\。|\，]/g,
-        //     "");
-        // alert(str11);
-        $(function () {
-            // 阻止用户手机向上滑动
-            function default1(ele) {
-                document.querySelector(ele).addEventListener('touchmove', function (e) {
-                    e.preventDefault();
+        var app = new Vue({
+            el: '#app',
+            data: {
+                pop:false,//识别中弹窗
+                jiushu: 0,
+                money: 0, //金币
+                active: false, //选中说话按钮样式
+                num: 0, //top值
+                intervalBox: '',
+                dataArr: [{
+                    'pinyin': 'haha'
                 }, {
-                    passive: false
-                });
-            }
-            default1('.start-game')
-            default1('#canvas')
-            default1('body')
+                    'pinyin': 'haha'
+                }, {
+                    'pinyin': 'haha'
+                }, {
+                    'pinyin': 'haha'
+                }, ],
+                result: '', //每次说的话
+                mark: 0, //每次说话匹配正确的索引
+                textword:'',//用户自定义汉字
+                textList:[],//存放用户自定义输入的汉字数组
+
+            },
+            mounted() {
+                this.dataArrStart()
+            },
+            methods: {
+                //点击添加添加汉字
+                addBtn:function(){
+
+
+                            console.log(this.textword);
+
+                },
+                //语音开始
+                fn1: function () {
+                    this.active = true
+                    // this.pop=true
+                    wx.startRecord({
+                        cancel: function () {
+                            alert('用户拒绝授权录音');
+                        }
+                    });
+                },
+                //语音结束
+                fn2: function () {
+                    this.active = false
+                    var _this = this
+                    this.pop=true
+                    this.stopInterval()
+                    wx.stopRecord({
+                        success: function (res) {
+                            var localId1 = res.localId;
+                            wx.translateVoice({
+                                localId: localId1,
+                                isShowProgressTips: 0, // 默认为1，显示进度提示
+                                success: function (res) {
+                                    // 语音识别的结果
+                                    var result = res.translateResult.replace(
+                                        /[\ |\~|\`|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\-|\_|\+|\=|\||\\|\[|\]|\{|\}|\;|\:|\"|\'|\,|\<|\.|\>|\/|\?|\。|\，|\？]/g,
+                                        "")
+                                    _this.result = pinyinUtil.getPinyin(result,
+                                        ' ', true, true); //识别结果转换成拼音
+                                    let arr1 = _this.result.join(',').replace(
+                                        /\s+/g, '').split(',') //去除空格
+                                    let arr2 = _this.dataArr
+                                    arr2 = _this.dataArr.map(x => {
+                                        return x.pinyin
+                                    }).join(',').replace(/\s+/g, '').split(
+                                        ',') //去除空格
+                                    const findIndexes = (param1, param2) => {
+                                        let arr1 = [...param1];
+                                        let arr2 = [...param2];
+                                        [arr1, arr2] = [arr2, arr1];
+                                        return arr2.map(a2 => arr1.findIndex(
+                                            a1 => a1 === a2)).filter(item =>
+                                            item != -1);
+                                    }
+                                    this.mark = findIndexes(arr1, arr2)
+
+                                    if (this.mark.length != 0) {
+                                        _this.money = _this.money + 100
+                                        // alert(this.mark)
+
+                                        $('.words .list').eq(this.mark).children(
+                                            'img').show()
+                                        boom($('.words .list').eq(this.mark)
+                                            .children(
+                                                'img'))
+                                        setTimeout(() => {
+                                            $('.words .list').eq(this.mark)
+                                                .css(
+                                                    'opacity',
+                                                    0);
+                                        }, 400)
+                                    } else {
+                                        // alert('错误')
+                                    }
+                                    _this.pop=false
+                                    clearInterval(_this.intervalBox)
+                                    _this.startInterval(50)
+                                }
+                            });
+                        },
+                        fail: function (res) {
+                            alert(JSON.stringify(res));
+                        }
+                    });
+                },
+                dog: function () {
+                    $('.img1').eq(9).show()
+                    boom($('.img1').eq(9))
+                },
+                //初始拼音
+                dataArrStart: function () {
+                    let _this = this
+                    // alert('加载')
+                    axios({
+                        url: 'http://xyx.wit100.net/index/cms.Content/list',
+                        method: 'get',
+                        params: {
+                            page: 1,
+                            limit: 10,
+                            category_id: 1,
+                            name: '',
+                        },
+                        // Headers: {
+                        //     MemberToken: ''
+                        // }
+                    }).then(res => {
+                        let data = res.data;
+                        if (data.code === 200) {
+                            // this.dataArr = pinyinUtil.getPinyin(this.dataArr.reverse().toString(),
+                            //     ' ',
+                            //     true).split(',');
+                            var arr = data.data.list.reverse()
+                            // _this.dataArr.push(data.data.list)
+                            _this.dataArr = arr
+                        }
+
+                    }).catch(error => {
+                        alert(error)
+                        if (error) {
+                            throw error
+                        }
+                    });
+                    // this.dataArr = this.dataArr.reverse().toString()
+
+                    // this.dataArr = pinyinUtil.getPinyin(this.dataArr.reverse().toString(), ' ',
+                    //     true).split(',');
+                    // console.log(this.dataArr);
+                },
+                //设置随机值
+                offsetTopStart: function () {
+                    // var num = -$(".words").innerHeight()
+                    var winWidth = window.innerWidth;
+                    $(".list").each(function (index) {
+                        var w = winWidth - $('.list').eq(index).innerWidth()
+                        var ran = Math.ceil(Math.random() * (w - 50))
+                        $('.list').eq(index).css('marginLeft', ran + 'px')
+                    })
+                },
+                //初始化定时器
+                startInterval: function (a) {
+
+                    let _this = this
+                    _this.jiushu = 0
+                    var num = -$(".words").innerHeight()
+                    var dvheight = $(".grassland").innerHeight() - 40
+                    console.log(dvheight, num);
+                    console.log($(".words .list").innerHeight());
+                    $('.words').css('top', this.num + 'px')
+
+                    this.intervalBox = setInterval((a) => {
+                        this.num++
 
 
 
-            var str = ''
+                        for (var i = 0; i < $(".words .list").length; i++) {
 
-            for (var i = 0; i < dataArr.length; i++) {
+                            // console.log(i);
+                            if (parseInt($(".words .list").eq(i).offset().top) - 20 == parseInt($(
+                                    ".grassland").offset().top)) {
+                                // alert($(".words .list").eq(i).offset().top)
+                                // console.log(($(".words .list").eq(i).text().trim() == 'wú dí'));
+                                console.log(($(".words .list").eq(i).css('opacity')) == 1);
+                                if ($(".words .list").eq(i).css('opacity') == 1) { //false 星星减少
+                                    _this.jiushu++
 
-                str += `<div class='list fon'>${dataArr[i]}</div>`;
-            };
-
-            document.getElementById("words").innerHTML = str;
-            var index = dataArr.indexOf("哈哈")
-            $('.dog').click(function () {
-                console.log(1);
-                $('.words .list').eq(index).css('opacity', 0);
-            })
-            $('.listBox select').change(function () {
-                $(this).css('color', '#e0f3ff')
-            })
-            //开始按钮进入游戏页面
-            $('body').on('click', '.start-btn', function () {
-                alert(1)
-                $('#canvas').hide()
-                $('.start-game').css('opacity', '1')
-                startInterval()
-            })
+                                    $('.xin').eq(_this.jiushu - 1).hide()
 
 
-            var intervalBox; //interval定时器存储器
-            var num = -$(".words").innerHeight()
-            var winWidth = window.innerWidth;
-            $(".list").each(function (index) {
-                var w = winWidth - $('.list').eq(index).innerWidth()
-                var ran = Math.ceil(Math.random() * (w - 50))
-                $('.list').eq(index).css('marginLeft', ran + 'px')
-            })
-            //初始化定时器
-            function startInterval() {
+                                }
 
-                console.log(num);
-                $('.words').css('top', num + 'px')
-                intervalBox = setInterval(() => {
-                    num++
-                    if (num > (Math.ceil($(".start-game").innerHeight() - 10))) {
-                        alert('结束')
-                        clearInterval(intervalBox)
+
+                                // if (_this.jiushu == 3) {
+                                //     setTimeout(() => {
+                                //         // alert('挑战失败 游戏结束')
+                                //         console.log('结束');
+                                //     }, 3000);
+                                // } else {
+
+                                // }
+                            }
+                        }
+
+                        if (_this.jiushu == 3) {
+                            clearInterval(this.intervalBox)
+                            setTimeout(() => {
+                                $('.start-game').css('opacity', '0')
+                                $('.grade').show()
+                                clearInterval(this.intervalBox)
+                            }, 1000)
+                        }
+
+                        if (this.num > (Math.ceil($(".start-game").innerHeight() - dvheight))) {
+                            $('.start-game').css('opacity', '0')
+                            $('.grade').show()
+                            clearInterval(this.intervalBox)
+
+
+                        }
+                        // console.log(Math.ceil($(".start-game").innerHeight() + 10));
+                        $('.words').css('top', this.num + 'px')
+                        $('.words').css('opacity', 1)
+                        // console.log(this.num);
+                        // console.log(($(".words").offset().top + $(".words")
+                        //         .height()) - ($(".grassland").offset().top +
+                        //         $(".grassland").height()) < $(".grassland")
+                        //     .height());
+                        // console.log($(".grassland").offset().top + ',,,');
+                        // console.log($(".words .list").eq(4).offset().top + '---');
+
+
+
+                    }, a);
+                },
+
+                //返回重新开始按钮
+                nextBtn: function () {
+                    $('.start-game').css('opacity', '1')
+                    $('.grade').hide()
+                    this.num = -$(".words").innerHeight()
+                    $('.xin').show()
+                    setTimeout(() => {
+                        this.startInterval(50)
+                        this.offsetTopStart()
+                    }, 1000)
+                    for (var i = 0; i < $(".words .list").length; i++) {
+                        $(".words .list").eq(i).css('opacity', '1')
                     }
-                    // console.log(Math.ceil($(".start-game").innerHeight() + 10));
-                    $('.words').css('top', num + 'px')
-                    $('.words').css('opacity', 1)
-                    // console.log(num);
-                }, 40);
-            }
-            //结束interval定时器
-            function stopInterval() {
-                clearInterval(intervalBox); //清除interval定时器
-            }
+                },
+                //结束interval定时器
+                stopInterval: function () {
+                    clearInterval(this.intervalBox); //清除interval定时器
+                },
+                moneyBtn:function(){
+                //    if (this.intervalBox) {
+                //         this.intervalBox = clearInterval(this.intervalBox);
+                //     } else {
+                //         return;
+                //     }
+                clearInterval(this.intervalBox)
+                this.startInterval(50)
+                },
+                //点击开始按钮
+                startBtn: function () {
+                    // $('.words .list').eq(8).css(
+                    //     'opacity',
+                    //     '0');
+                    this.num = -$(".words").innerHeight()
+                    $('#canvas').hide()
+                    $('.start-game').css('opacity', '1')
 
-            //单词从头开始下落
-            $('.boom').click(function () {
-                stopInterval()
-                console.log(1);
-                num = -$(".words").innerHeight()
-                startInterval()
-            })
-            //暂停单词下落
-            $(".speed").on('click', function () {
-                if (intervalBox) {
-                    intervalBox = clearInterval(intervalBox);
-                } else {
-                    return;
+                    setTimeout(() => {
+                        this.startInterval(50)
+                        this.offsetTopStart()
+                    }, 1000)
+                    console.log(-$(".words").innerHeight());
+                },
+                //减速暂停
+                speedBtn: function () {
+                    // if (this.intervalBox) {
+                    //     this.intervalBox = clearInterval(this.intervalBox);
+                    // } else {
+                    //     return;
+                    // }
+
+                    clearInterval(this.intervalBox)
+                    this.startInterval(100)
+                },
+                //炸弹
+                boomBtn: function () {
+                    // if (this.intervalBox) {
+                    //     this.intervalBox = clearInterval(this.intervalBox);
+                    // } else {
+                    //     return;
+                    // }
+                    // this.stopInterval()
+                    // console.log(1);
+                    // this.num = -$(".words").innerHeight()
+                    // this.startInterval()
+                    // $('img').show()
+
+                    for (var i = 0; i < $(".words .list").length; i++) {
+                        if ($(".words .list").eq(i).offset().top >= -40) {
+                            $(".words .list").eq(i).css('opacity', '0')
+                        }
+
+                        // console.log($(".words .list").eq(8).offset().top + 'top');
+                    }
+                    if ($(".words .list").eq(0).css('opacity') == 0) {
+                        clearInterval(this.intervalBox); //清除interval定时器
+                        alert('被你炸干净了');
+                    }
+                },
+                //点击头像 再次开始动画
+                personBtn: function () {
+                    // if (this.intervalBox) {
+                    //     return this.intervalBox;
+                    // } else {
+                    //     this.startInterval()
+                    // }
+                    this.stopInterval()
                 }
-            })
-            //继续单词下落
-            $(".preson").on('click', function () {
-                if (intervalBox) {
-                    return intervalBox;
-                } else {
-                    startInterval()
-                }
-            })
+
+            }
         })
-        // console.log(Pinyin.getFullChars('管理员'));
     </script>
     <script src="js/comment.js"></script>
-    <script>
-        // function getPinyin() {
-        //     var value = document.querySelectorAll('.words .list');
-        //     console.log(value);
-        //     for (var i = 0; i < value.length; i++) {
-        //         console.log(pinyinUtil.getPinyin(value[i].innerHTML, ' ', true));
-        //         value[i].innerHTML = pinyinUtil.getPinyin(value[i].innerHTML, ' ', true)
-        //     }
-        // }
 
-
-        // getPinyin();
-    </script>
 
 
 </body>

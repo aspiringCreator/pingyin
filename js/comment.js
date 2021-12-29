@@ -1,11 +1,12 @@
 /*
  * @Author: your name
  * @Date: 2021-12-10 14:02:10
- * @LastEditTime: 2021-12-20 10:16:21
+ * @LastEditTime: 2021-12-20 18:38:37
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \ccit-webe:\创正2021年\创正11月\拼音小游戏\js\comment.js
  */
+Vue.prototype.$wx = wx
 var pagetUrl = window.location.href;
 //var wx = require("http://res.wx.qq.com/open/js/jweixin-1.0.0.js");
     //--微信JS配置
@@ -72,6 +73,7 @@ var pagetUrl = window.location.href;
 
             }
         });
+
         wx.ready(function() {
             //自定义“分享给朋友”及“分享到QQ”按钮的分享内容（1.4.0）
                 wx.updateAppMessageShareData({
@@ -93,117 +95,117 @@ var pagetUrl = window.location.href;
                     }
                 })
                 // 3 智能接口
-            var voice = {
-                localId: '',
-                serverId: ''
-            };
+            // var voice = {
+            //     localId: '',
+            //     serverId: ''
+            // };
 
-            document.getElementById('dom').ontouchstart=function () {
-                $('#startRecord').hide()
-                wx.startRecord({
-                    cancel: function () {
-                        alert('用户拒绝授权录音');
-                    }
-                });
-             }
+            // document.getElementById('dom').ontouchstart=function () {
+            //     $('#startRecord').hide()
+            //     wx.startRecord({
+            //         cancel: function () {
+            //             alert('用户拒绝授权录音');
+            //         }
+            //     });
+            //  }
 
-             document.getElementById('dom').ontouchend=function () {
-                $('#startRecord').show()
-                // event.preventDefault();
-                // btnRecord.removeClass('hold');
-                var sendDate = (new Date()).getTime();
-                // 间隔太短
-                wx.stopRecord({
+            //  document.getElementById('dom').ontouchend=function () {
+            //     $('#startRecord').show()
+            //     // event.preventDefault();
+            //     // btnRecord.removeClass('hold');
+            //     var sendDate = (new Date()).getTime();
+            //     // 间隔太短
+            //     wx.stopRecord({
 
-                    success: function (res) {
-                        voice.localId = res.localId;
+            //         success: function (res) {
+            //             voice.localId = res.localId;
 
-                        wx.translateVoice({
-                            localId: voice.localId,
-                            isShowProgressTips: 0, // 默认为1，显示进度提示
-                            complete: function (res) {
-                              if (res.hasOwnProperty('translateResult')) {
-                                var receiveDate = (new Date()).getTime();
-                                var responseTimeMs = receiveDate - sendDate;
-                                alert(responseTimeMs)
-                                alert( res.translateResult.replace(
-                                    /[\ |\~|\`|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\-|\_|\+|\=|\||\\|\[|\]|\{|\}|\;|\:|\"|\'|\,|\<|\.|\>|\/|\?|\。|\，|\？]/g,
-                                    ""));
-
-
-
-                                $('.words .list').html(res.translateResult)
-                              } else {
-                                alert('无法识别');
-                              }
-                            }
-                          });
-                    },
-                    fail: function (res) {
-                        alert(JSON.stringify(res));
-                    }
-                });
+            //             wx.translateVoice({
+            //                 localId: voice.localId,
+            //                 isShowProgressTips: 0, // 默认为1，显示进度提示
+            //                 complete: function (res) {
+            //                   if (res.hasOwnProperty('translateResult')) {
+            //                     var receiveDate = (new Date()).getTime();
+            //                     var responseTimeMs = receiveDate - sendDate;
+            //                     alert(responseTimeMs)
+            //                     alert( res.translateResult.replace(
+            //                         /[\ |\~|\`|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\-|\_|\+|\=|\||\\|\[|\]|\{|\}|\;|\:|\"|\'|\,|\<|\.|\>|\/|\?|\。|\，|\？]/g,
+            //                         ""));
 
 
-            };
-             // 3.1 识别音频并返回识别结果
-            document.querySelector('#translateVoice').onclick = function () {
-              if (voice.localId == '') {
-                alert('请先使用 startRecord 接口录制一段声音');
-                return;
-              }
-              wx.translateVoice({
-                localId: voice.localId,
-                complete: function (res) {
-                  if (res.hasOwnProperty('translateResult')) {
-                    alert('识别结果：' + res.translateResult);
-                  } else {
-                    alert('无法识别');
-                  }
-                }
-              });
-            };
-             // 4 音频接口
-            // 4.2 开始录音
-            document.querySelector('#startRecord').onclick = function () {
-                wx.startRecord({
-                    cancel: function () {
-                        alert('用户拒绝授权录音');
-                    }
-                });
-            };
-            // 4.3 停止录音
-            document.querySelector('#stopRecord').onclick = function () {
-                wx.stopRecord({
-                    success: function (res) {
-                        voice.localId = res.localId;
-                        alert(voice.localId)
-                    },
-                    fail: function (res) {
-                        alert(JSON.stringify(res));
-                    }
-                });
-            };
 
-            // 4.4 监听录音自动停止
-            wx.onVoiceRecordEnd({
-                complete: function (res) {
-                    voice.localId = res.localId;
-                    alert('录音时间已超过一分钟');
-                }
-            });
+            //                     $('.words .list').html(res.translateResult)
+            //                   } else {
+            //                     alert('无法识别');
+            //                   }
+            //                 }
+            //               });
+            //         },
+            //         fail: function (res) {
+            //             alert(JSON.stringify(res));
+            //         }
+            //     });
 
-             // 4.5 播放音频
-            document.querySelector('#playVoice').onclick = function () {
 
-                if (voice.localId == '') {
-                    alert('请先使用 startRecord 接口录制一段声音');
-                    return;
-                }
-                wx.playVoice({
-                    localId: voice.localId
-                });
-            };
+            // };
+            //  // 3.1 识别音频并返回识别结果
+            // document.querySelector('#translateVoice').onclick = function () {
+            //   if (voice.localId == '') {
+            //     alert('请先使用 startRecord 接口录制一段声音');
+            //     return;
+            //   }
+            //   wx.translateVoice({
+            //     localId: voice.localId,
+            //     complete: function (res) {
+            //       if (res.hasOwnProperty('translateResult')) {
+            //         alert('识别结果：' + res.translateResult);
+            //       } else {
+            //         alert('无法识别');
+            //       }
+            //     }
+            //   });
+            // };
+            //  // 4 音频接口
+            // // 4.2 开始录音
+            // document.querySelector('#startRecord').onclick = function () {
+            //     wx.startRecord({
+            //         cancel: function () {
+            //             alert('用户拒绝授权录音');
+            //         }
+            //     });
+            // };
+            // // 4.3 停止录音
+            // document.querySelector('#stopRecord').onclick = function () {
+            //     wx.stopRecord({
+            //         success: function (res) {
+            //             voice.localId = res.localId;
+            //             alert(voice.localId)
+            //         },
+            //         fail: function (res) {
+            //             alert(JSON.stringify(res));
+            //         }
+            //     });
+            // };
+
+            // // 4.4 监听录音自动停止
+            // wx.onVoiceRecordEnd({
+            //     complete: function (res) {
+            //         voice.localId = res.localId;
+            //         alert('录音时间已超过一分钟');
+            //     }
+            // });
+
+            //  // 4.5 播放音频
+            // document.querySelector('#playVoice').onclick = function () {
+
+            //     if (voice.localId == '') {
+            //         alert('请先使用 startRecord 接口录制一段声音');
+            //         return;
+            //     }
+            //     wx.playVoice({
+            //         localId: voice.localId
+            //     });
+            // };
 
         });
 
