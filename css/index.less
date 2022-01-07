@@ -93,6 +93,14 @@ input,textarea {
             transform: translate(-50%,-50%);
         }
     }
+    .b{
+        position: absolute;
+        bottom: 1.62rem;
+        z-index: 12;
+        width: 4.13rem;
+        left: 50%;
+        transform: translateX(-50%);
+    }
     .blood{
         position: absolute;
         bottom: 6.8rem;
@@ -174,6 +182,16 @@ input,textarea {
         bottom: 2.91rem;
 
     }
+    .bone{
+        width: 1.19rem;
+        height: .81rem;
+        background: url(../images/bone.png) no-repeat;
+        background-size: 100% 100%;
+        position: absolute;
+        right: .2rem;
+        bottom: 1.21rem;
+        z-index: 11;
+    }
     .circle{
         width: .78rem;
         height: .37rem;
@@ -216,12 +234,118 @@ input,textarea {
     .dog{
         width: 1.4rem;
         height: 1.28rem;
-        background: url(../images/dog.png) no-repeat;
-        background-size: 100% 100%;
+        background: url(../images/dog1.png) no-repeat;
+        background-size: cover;
         position: absolute;
         left: 0;
-
+        z-index: 11;
         bottom: 1.37rem;
+        overflow: hidden;
+
+
+        // position: absolute;
+        // width: 200px;
+        // height: 100px;
+        // overflow: hidden;
+        // bottom: 0;
+        // z-index: 1;
+        // background: url(img/bear.png) no-repeat;
+        // animation: xiong 1s steps(8) infinite;
+    }
+    .aaa{
+        animation: xiong 1s steps(3) 3 ,a1 3s linear forwards;
+    }
+    .bbb{
+        animation: xiong2 1s steps(3) 3 ,b1 3s linear forwards;
+    }
+    .ccc{
+        animation: xiong3 1s steps(3) 3 ,c1 3s linear forwards;
+    }
+    .ddd{
+        animation: xiong4 1s steps(3) 3 ,d1 3s linear forwards;
+    }
+    .eee{
+        animation: xiong5 1s steps(3) 3 ,e1 3s linear forwards;
+    }
+    @keyframes a1 {
+        0% {left: 0; bottom: 1.37rem;}
+        100% {
+            left: 1.3rem;
+            bottom: 2rem;
+        }
+    }
+    @keyframes b1 {
+        0% {
+            left: 1.3rem;
+            bottom: 2rem;
+        }
+        100% {
+            left: 2.5rem;
+            bottom: 2rem;
+        }
+    }
+    @keyframes c1 {
+        0% {
+            left: 2.5rem;
+            bottom: 2rem;
+        }
+        100% {
+
+            left: 3.5rem;
+            bottom: 2.1rem;
+        }
+    }
+    @keyframes d1 {
+        0% {
+            left: 3.5rem;
+            bottom: 2.1rem;
+        }
+        100% {
+
+            left: 4.6rem;
+            bottom: 2rem;
+        }
+    }
+    @keyframes e1 {
+        0% {
+            left: 4.6rem;
+            bottom: 2rem;
+        }
+        100% {
+
+            left: 5.8rem;
+            bottom: 2rem;
+        }
+    }
+    @keyframes xiong {
+        0% {}
+        100% {
+            background-position: -4.2rem 0;
+        }
+    }
+    @keyframes xiong2 {
+        0% {}
+        100% {
+            background-position: -4.2rem 0;
+        }
+    }
+    @keyframes xiong3 {
+        0% {}
+        100% {
+            background-position: -4.2rem 0;
+        }
+    }
+    @keyframes xiong4 {
+        0% {}
+        100% {
+            background-position: -4.2rem 0;
+        }
+    }
+    @keyframes xiong5 {
+        0% {}
+        100% {
+            background-position: -4.2rem 0;
+        }
     }
     .words{
         position: absolute;
@@ -395,6 +519,7 @@ div{
         position: absolute;
         top: .14rem;
         left: 0;
+        z-index: 1;
     }
     .share{
         width: 1.27rem;
@@ -405,6 +530,7 @@ div{
         position: absolute;
         right: .4rem;
         top: .14rem;
+        z-index: 1;
     }
     .person{
         width: 2.4rem;
@@ -416,6 +542,7 @@ div{
         top: .8rem;
         left: 50%;
         transform: translateX(-50%);
+        z-index: 1;
         img{
             margin: auto;
             width: 1.9rem;
@@ -444,6 +571,7 @@ div{
         letter-spacing: 4px;
         box-shadow: 0px 0px 7px #1e7cc4;
         text-shadow:5px 5px 5px #1e7cc4;
+        z-index: 1;
         i{
             color: #79cbff;
         }
@@ -454,7 +582,8 @@ div{
         // margin-bottom: .9rem;
         display: flex;
         flex-wrap: wrap;
-        justify-content: space-around;
+        justify-content: flex-start;
+
 
         div{
             width: 2.11rem;
@@ -462,9 +591,22 @@ div{
             text-align: center;
             line-height: 1.17rem;
             color: #e0f3ff;
-            background: url(../images/active.png) no-repeat;
+            background: url(../images/active1.png) no-repeat;
             background-size: 100% 100%;
             margin-bottom: .25rem;
+            margin-right: .11rem;
+            pointer-events: none;
+            cursor: default;
+
+        }
+        .evNone{
+
+        }
+        .ac{
+            background: url(../images/active.png) no-repeat;
+            background-size: 100% 100%;
+            pointer-events: auto;
+            cursor: auto;
         }
     }
     .exit{
@@ -475,6 +617,164 @@ div{
         margin: auto;
         margin-bottom: .5rem;
     }
+}
+.grade1{
+.tit{
+    position: absolute;
+    z-index: 0;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+.bang{
+    width: 3.54rem;
+    position: absolute;
+    top: 7rem;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.footer{
+    position: absolute;
+    bottom: .8rem;
+    padding: 0.35rem;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    div{
+        width: 3.22rem;
+        height: 1.2rem;
+        background: url(../images/xiayiguanB.png) no-repeat;
+        background-size: 100% 100%;
+        text-align: center;
+        line-height: 1.2rem;
+        font-size: .36rem;
+        color: #fff;
+        text-shadow: 1px 1px 1px red;
+    }
+}
+min-height: 100%;
+font-family: 'my-font';
+// overflow-y: auto;
+background: #7cc3fc url(../images/yunFooter.png) no-repeat center bottom;
+background-size: 100% 2.81rem;
+// 　　background-attachment:fixed;
+position: absolute;
+top: 0;
+z-index: 10;
+width: 100%;
+padding-bottom: .8rem;
+padding-top: 4rem;
+.nextBtn{
+    width: 1.34rem;
+    height: 1.1rem;
+    background: url(../images/nextBtn.png) no-repeat;
+    background-size: 100% 100%;
+    margin-bottom: .56rem;
+    position: absolute;
+    top: .14rem;
+    left: 0;
+    z-index: 1;
+}
+.share{
+    width: 1.27rem;
+    height: 1.3rem;
+    background: url(../images/shareBtn.png) no-repeat;
+    background-size: 100% 100%;
+    margin-bottom: .56rem;
+    position: absolute;
+    right: .4rem;
+    top: .14rem;
+    z-index: 1;
+}
+.person{
+    width: 2.4rem;
+    height: 2.4rem;
+    background: url(../images/personBg.png) no-repeat;
+    background-size: 100% 100%;
+    display: flex;
+    position: absolute;
+    top: .8rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+    img{
+        margin: auto;
+        width: 1.9rem;
+        height: 1.9rem;
+        margin-top: .15rem;
+    }
+}
+.name{
+    position: absolute;
+    top: 3.18rem;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #fff;
+
+    font-size: .3rem;
+}
+.result{
+    width: 6.66rem;
+    margin: auto;
+    margin-bottom: .6rem;
+    border-radius: .2rem;
+    border: 4px solid #4ed1f4;
+    background: #2588d4;
+    color: #e0f3ff;
+    padding: .4rem .5rem;
+    letter-spacing: 4px;
+    box-shadow: 0px 0px 7px #1e7cc4;
+    text-shadow:5px 5px 5px #1e7cc4;
+    z-index: 1;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: .5rem;
+    i{
+        color: #79cbff;
+    }
+}
+.guan{
+    width: 6.66rem;
+    margin: auto;
+    // margin-bottom: .9rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+
+
+    div{
+        width: 2.11rem;
+        height: 1.17rem;
+        text-align: center;
+        line-height: 1.17rem;
+        color: #e0f3ff;
+        background: url(../images/active1.png) no-repeat;
+        background-size: 100% 100%;
+        margin-bottom: .25rem;
+        margin-right: .11rem;
+        pointer-events: none;
+        cursor: default;
+
+    }
+    .evNone{
+
+    }
+    .ac{
+        background: url(../images/active.png) no-repeat;
+        background-size: 100% 100%;
+        pointer-events: auto;
+        cursor: auto;
+    }
+}
+.exit{
+    width: 3.83rem;
+    height: 1.2rem;
+    background: url(../images/exitBtn.png) no-repeat;
+    background-size: 100% 100%;
+    margin: auto;
+    margin-bottom: .5rem;
+}
 }
 .custom{
 

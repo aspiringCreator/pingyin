@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-12-10 14:02:10
- * @LastEditTime: 2021-12-20 18:38:37
+ * @LastEditTime: 2022-01-04 18:41:11
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \ccit-webe:\创正2021年\创正11月\拼音小游戏\js\comment.js
@@ -15,7 +15,9 @@ var pagetUrl = window.location.href;
         //     pagetUrl = str.substring(0, pagetUrl.indexOf("#"));
         // }
         $.ajax({
-            url: "https://www.csnbgsh.cn/cszkyy/aa/taken_post",
+            // https://www.csnbgsh.cn/cszkyy/aa/taken_post
+
+            url: "http://sgkpdt.sh-service.com/aa/taken_post",
             type: "post",
             data: {
                 purl: pagetUrl
@@ -67,7 +69,8 @@ var pagetUrl = window.location.href;
                     'openProductSpecificView',
                     'addCard',
                     'chooseCard',
-                    'openCard'
+                    'openCard',
+                    'getUserProfile'
                     ] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
                 });
 
@@ -76,6 +79,24 @@ var pagetUrl = window.location.href;
 
         wx.ready(function() {
             //自定义“分享给朋友”及“分享到QQ”按钮的分享内容（1.4.0）
+            wx.getUserProfile({
+                desc: '获取你的昵称、头像、地区及性别',
+                success: res => {
+                    console.log(res);
+                    console.log(1);
+                },
+                fail: res => {
+                    console.log(2);
+                    console.log(res)
+                    //拒绝授权
+                    wx.showToast({
+                        title: '您拒绝了请求,不能正常使用小程序',
+                        icon: 'error',
+                        duration: 2000
+                    });
+                    return;
+                }
+            });
                 wx.updateAppMessageShareData({
                     title: '辰山植物专科医院', // 分享标题
                     desc: '辰山植物专科医院', // 分享描述

@@ -1,0 +1,433 @@
+<!--
+ * @Author: your name
+ * @Date: 2022-01-04 10:01:48
+ * @LastEditTime: 2022-01-07 09:49:49
+ * @LastEditors: Please set LastEditors
+ * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ * @FilePath: \创正12e:\创正2021年\创正11月\拼音小游戏\changxingdao.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8;">
+  <meta name="renderer" content="webkit" />
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="format-detection" content="telephone=no,email=no">
+  <title>长兴岛</title>
+  <link rel="stylesheet" href="css/wap-public.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vant@2.12/lib/index.css" />
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/list.css">
+  <script src="js/vue.min.js"></script>
+  <script src="https://cdn.staticfile.org/axios/0.18.0/axios.min.js"></script>
+  <script src="js/wap-public.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vant@2.12/lib/vant.min.js"></script>
+  <script src="js/base.js"></script>
+  <style>
+    .pop {
+      position: fixed;
+      top: 0px;
+      left: 0px;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.3);
+      z-index: 111;
+    }
+
+    .pop-con {
+      position: absolute;
+      width: 90%;
+      height: 5rem;
+      background: url(img/baiwen.png) no-repeat;
+      background-size: 100%100%;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      padding: 0.6rem 0.5rem;
+      padding-top: .8rem;
+    }
+
+    .pop-con .a {
+      font-size: .3rem;
+      margin-bottom: .15rem;
+    }
+
+    .pop-con .b {
+      font-size: .2rem;
+      margin-bottom: .1rem;
+    }
+
+    .pop-con .c {
+      font-size: .16rem;
+    }
+
+    .pop-con .d {
+      position: absolute;
+      width: 1.4rem;
+      height: .5rem;
+      line-height: .5rem;
+      background: rgb(47, 86, 215);
+      border-radius: 5px;
+      bottom: 0.6rem;
+      right: .7rem;
+
+      text-align: center;
+      font-size: .2rem;
+      color: rgb(255, 255, 255);
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app" class="flex wrapper">
+    <div class="pop" v-show="show1">
+      <div class="pop-con">
+        <div style="max-height:3rem ;overflow-y: auto;overflow-x: hidden;">
+          <div class="a">{{tit}}</div>
+          <div class="b" v-html="content"></div>
+          <div class="c">{{time}}</div>
+        </div>
+        <div class="d" @click="fn">查看更多</div>
+      </div>
+    </div>
+    <cx-header></cx-header>
+    <div class="flex content">
+      <!-- 大标题 & 面包条 &&& tab导航 -->
+      <div class="column c1">
+        <div class="item left">
+          <i></i>
+          <span>{{bread1.title}}</span>
+        </div>
+        <div class="item right">
+          <label @click="handleViewToPage('index.html')">首页</label>
+          <span>></span>
+          <label @click="handleBread1">{{bread1.title}}</label>
+          <span>></span>
+          <label>{{bread2.title}}</label>
+        </div>
+      </div>
+
+      <van-tabs v-model="active" border color="#FF9704" title-active-color="#FF9704" title-inactive-color="#333"
+        swipeable lazy-render :ellipsis="false" @change="handleChangeTab">
+        <van-tab v-for="(item,index) in tabList" :title="item.title" :name="item.id">
+
+          <van-empty description="暂无资料" v-if="infoList.length == 0"></van-empty>
+          <div v-if="infoList.length != 0" class="item list" v-for="(items,index) in infoList"
+            @click="handleInfoClick(index)">
+            <div class="grid left">
+              <i></i>
+              <span>{{items.title.length>18?items.title.slice(0,18)+'...':items.title}}</span>
+            </div>
+            <label>{{formatDate(items.crttime)}}</label>
+          </div>
+        </van-tab>
+      </van-tabs>
+
+      <div class="column more" v-if="infoList.length != 0 && infoListLength > pageCount" @click="handleListMore">
+        <img src="img/icon_arrow_up.png" alt="">
+        <span>加载更多...</span>
+      </div>
+    </div>
+    <cx-footer></cx-footer>
+  </div>
+</body>
+<!-- Components(cxheader&&Footer) -->
+<script src="components/header.js"></script>
+<script src="components/footer.js"></script>
+<script>
+  new Vue({
+    el: '#app',
+    data: {
+      bread1: null,
+      bread2: {
+        id: '222',
+        title: '热点聚焦'
+      },
+      active: getUrlParam('ctgid'),
+      totalData: [],
+      tabList: [],
+      infoList: [],
+      infoListLength: 0,
+      pageIndex: 1,
+      pageCount: 15,
+      tit: '',
+      time: '',
+      content: '',
+      show1: true,
+      arr1: [],
+      isJD: false,
+    },
+    mounted: function () {
+      if (getUrlParam('type') == 'zxxxgk') {
+        this.getList('zxxxgk');
+        this.tabList = [{ title: '最新信息公开' }];
+        this.bread1 = { title: '政务公开' };
+        this.bread2 = { title: '最新信息公开' }
+      } else {
+        this.getTabList(getUrlParam('ctgid'));
+        this.isJD = false;
+        if (getUrlParam('ctgid') == '00ceaebe-3a5c-48f8-b939-896ba8aed9cf'|| getUrlParam('ctgid') == '9cb60176-e2a1-4965-99e7-0ac37618b1ed') this.isJD = true;
+      }
+    },
+    methods: {
+      getTabList: function (id) {
+        axios({
+          url: '/api/infostaticdata?cmd=load',
+          method: 'get',
+          params: {
+            group: 'cxd2020_list_' + id,
+            key: 'fields'
+          }
+        }).then(res => {
+          // console.log(JSON.parse(res.data.data))
+          let newTitle = JSON.parse(res.data.data);
+          this.bread2 = newTitle.mbxCtgs[1];
+          this.bread1 = {
+            id: newTitle.mbxCtgs[1].id,
+            title: newTitle.mbxCtgs[0].title
+          };
+           console.log( newTitle.leftMenu[9].title)
+console.log( newTitle)
+        if (newTitle.leftMenu[0].title == '党风廉政建设') {
+            this.show1 = true
+          } else if (newTitle.leftMenu[1].title == '党政机关公务接待') {
+            this.show1 = true;
+          } else if (newTitle.leftMenu[2].title == '国有企业商务招待') {
+            this.show1 = true;
+          } else if (newTitle.leftMenu[3].title == '差旅管理') {
+            this.show1 = true;
+          } else if (newTitle.leftMenu[4].title == '因公出国') {
+            this.show1 = true;
+          } else if (newTitle.leftMenu[5].title == '办公用房') {
+            this.show1 = true;
+          } else if (newTitle.leftMenu[6].title == '公务用车') {
+            this.show1 = true;
+          } else if (newTitle.leftMenu[7].title == '会议培训') {
+            this.show1 = true;
+          } else if (newTitle.leftMenu[8].title == '工会管理') {
+            this.show1 = true;
+          } else if (newTitle.leftMenu[9].title == '其他相关规定') {
+            this.show1 = true;
+          } else {
+            this.show1 = false
+          }
+          if (getUrlParam('ctgid') == 'bb5de985-1bca-4c31-a609-11ad16629a63') {
+            this.tabList.push(newTitle.leftMenu[0]);
+          }
+          if (getUrlParam('ctgid') == '2b44d1ca-091c-408e-ad9b-20db99235f70') {
+            newTitle.leftMenu.pop();
+            this.tabList = newTitle.leftMenu;
+          } else if (getUrlParam('ctgid') == 'd063656a-9f00-4c26-a777-44303bb8abb4') {
+            this.tabList.push(newTitle.leftMenu[2]);
+          } else {
+            this.tabList = newTitle.leftMenu;
+          }
+          this.getList(getUrlParam('ctgid'));
+        }).catch(error => {
+          if (error) { throw error }
+        });
+      },
+      fn: function () {
+        this.show1 = false
+        this.arr1 = []
+
+      },
+      getList: function (id) {
+        let that = this;
+        axios({
+          url: '/api/infostaticdata?cmd=loadpage',
+          method: 'get',
+          params: {
+            group: 'cxd2020_list_' + id,
+            index: this.pageIndex,
+            size: this.pageCount
+          }
+        }).then(res => {
+          this.infoListLength = res.data.total;
+          let arr = [];
+          this.arr1 = [];
+          let today = that.getNowFormatDate();
+          let data = res.data.data;
+
+          for (let i = 0; i < data.length; i++) {
+            let between = that.handleJudgeArr(JSON.parse(data[i]), today);
+            if (this.isJD) {
+              if (between >= 0) arr.push(JSON.parse(data[i]));
+            } else {
+              arr.push(JSON.parse(data[i]));
+            }
+          }
+          this.infoList = arr;
+
+          for (let i = 0; i < data.length; i++) {
+            let yy = new Date().getFullYear();
+            let _mm = new Date().getMonth() + 1;
+            let mm = _mm < 10 ? '0' + _mm : _mm;
+            let dd = new Date().getDate();
+             dd = dd >= 10 ? dd : "0" + dd;
+
+            var now = yy + '-' + mm + '-' + dd;
+            var date = JSON.parse(data[i]).crttime.split(' ');
+            if (now >= date[0]) {
+              this.arr1.push(JSON.parse(data[i]));
+            }
+          }
+
+		 console.log(now,date[0])
+          this.tit = this.arr1[0].title;
+          this.time = this.arr1[0].crttime;
+          this.content = this.arr1[0].content;
+
+        }).catch(error => {
+          if (error) { throw error }
+        });
+      },
+      handleJudgeArr: function (arr, today) {
+        let that = this;
+        let dd = arr.crttime.slice(0, 10);
+        return that.dateMinus(dd, today)
+      },
+      handleBread1: function () {
+        if (this.bread1.title == '政务公开') {
+          handleViewToPage('zwgk.html');
+        } else if (this.bread1.title == '走进长兴岛') {
+          handleViewToPage('list.html?ctgid=2b44d1ca-091c-408e-ad9b-20db99235f70');
+        } else if (this.bread1.title == '产城人文') {
+          handleViewToPage('list.html?ctgid=bd99e881-922b-4d8b-8bba-bb19ea2508e2')
+        } else {
+          handleViewToPage('list.html', [{ name: 'ctgid', value: bread1.id }]);
+        }
+      },
+      handleInfoClick: function (idx) {
+        console.log(idx)
+        let that = this;
+        let option = [{
+          name: 'ctgid',
+          value: that.infoList[idx].ctgids
+        }, {
+          name: 'id',
+          value: that.infoList[idx].id
+        }, {
+          name: 'crtt',
+          value: that.infoList[idx].crttime
+        }];
+        // console.log(that.infoList[idx]);
+        handleViewToPage('detail.html', option);
+      },
+      handleListMore: function () {
+        console.log("More");
+        this.pageCount = this.pageCount + 15;
+        if (getUrlParam('type') == 'zxxxgk') {
+          this.getList('zxxxgk')
+        } else {
+          this.getList(this.active);
+        }
+      },
+      handleChangeTab: function (name, title) {
+        //this.arr1=[]
+        console.log(name, title);
+        if (title == '党群工作') {
+          handleViewToPage('list.html?ctgid=e333cf1e-3842-4256-ad58-664787a1aeb6');
+          this.show1 = false;
+        }
+
+        if (title == '信息公开') {
+          handleViewToPage('list.html?ctgid=80e44175-ecc4-4290-9491-23c99d6d4f3f');
+        }
+        if (title == '廉政百问') {
+          handleViewToPage('list.html?ctgid=edead21b-69fe-4654-b90d-eeaa4aa71f7d');
+
+        }
+        if (title == '党政机关公务接待') {
+          handleViewToPage('list.html?ctgid=00ceaebe-3a5c-48f8-b939-896ba8aed9cf');
+          this.show1 = true;
+        }
+        if (title == '党风廉政建设') {
+          handleViewToPage('list.html?ctgid=edead21b-69fe-4654-b90d-eeaa4aa71f7d');
+          this.show1 = true;
+        }
+ 	if (title == '国有企业商务招待') {
+          handleViewToPage('list.html?ctgid=9cb60176-e2a1-4965-99e7-0ac37618b1ed');
+          this.show1 = true;
+      	}
+	 if (title == '差旅管理') {
+          handleViewToPage('list.html?ctgid=d96ef8f3-c674-4ed1-94dd-1a0adbb09e7e');
+          this.show1=true;
+        }
+        if (title == '因公出国') {
+          handleViewToPage('list.html?ctgid=65d87416-b8b0-47c3-83df-5d77879b3069');
+          this.show1=true;
+        }
+        if (title == '办公用房') {
+          handleViewToPage('list.html?ctgid=6fe2225b-afde-41dd-8111-ac4fd8fb1d94');
+          this.show1=true;
+        }
+        if (title == '公务用车') {
+          handleViewToPage('list.html?ctgid=ee378c70-249a-4411-8f49-79a8e13c239e');
+          this.show1=true;
+        }
+        if (title == '会议培训') {
+          handleViewToPage('list.html?ctgid=e4c870ce-9cc4-4841-b48e-79d5299246b5');
+          this.show1=true;
+        }
+        if (title == '工会管理') {
+          handleViewToPage('list.html?ctgid=5c881f23-1ce3-46f9-91c7-7a218a979acd');
+          this.show1=true;
+        }
+        if (title == '其他相关规定') {
+          handleViewToPage('list.html?ctgid=8d30c7a6-695e-4c2f-a857-bb5dcfe3faed');
+          this.show1=true;
+        }
+        if (title == '一网通办') {
+          handleViewToPage('http://zwdt.sh.gov.cn/govPortals/index.do');
+        }
+        if (title == '文旅融合') {
+          handleViewToPage('infor.html');
+        }
+        if (title == '产业发展') {
+          handleViewToPage('list.html?ctgid=eaccec56-4ede-4bcd-93af-a2887432fe42')
+        }
+        if (title == '城镇建设') {
+          handleViewToPage('list.html?ctgid=db5049bf-003b-4475-bb73-7f5e71689e9f')
+        }
+        this.bread2 = {
+          id: name,
+          title
+        };
+
+        this.infoList = [];
+        this.getList(name);
+        this.pageCount = 15;
+      },
+      dateMinus: function (dateStart, dateEnd) {
+        var sdate = new Date(dateStart);
+        var now = new Date(dateEnd);
+        var days = now.getTime() - sdate.getTime();
+        var day = Math.floor(days / (1000 * 60 * 60 * 24));
+
+        return day;
+      },
+      // 获取今天日期
+      getNowFormatDate: function () {
+        var date = new Date();
+        var seperator1 = "-";
+        var year = date.getFullYear();
+        var month = date.getMonth() + 1;
+        var strDate = date.getDate();
+        if (month >= 1 && month <= 9) {
+          month = "0" + month;
+        }
+        if (strDate >= 0 && strDate <= 9) {
+          strDate = "0" + strDate;
+        }
+        var currentdate = year + seperator1 + month + seperator1 + strDate;
+        return currentdate;
+      }
+    }
+  });
+</script>
+
+</html>

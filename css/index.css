@@ -97,6 +97,14 @@ textarea {
   top: 47%;
   transform: translate(-50%, -50%);
 }
+.start-game .b {
+  position: absolute;
+  bottom: 1.62rem;
+  z-index: 12;
+  width: 4.13rem;
+  left: 50%;
+  transform: translateX(-50%);
+}
 .start-game .blood {
   position: absolute;
   bottom: 6.8rem;
@@ -164,6 +172,16 @@ textarea {
   right: 0.2rem;
   bottom: 2.91rem;
 }
+.start-game .bone {
+  width: 1.19rem;
+  height: 0.81rem;
+  background: url(../images/bone.png) no-repeat;
+  background-size: 100% 100%;
+  position: absolute;
+  right: 0.2rem;
+  bottom: 1.21rem;
+  z-index: 11;
+}
 .start-game .circle {
   width: 0.78rem;
   height: 0.37rem;
@@ -205,11 +223,103 @@ textarea {
 .start-game .dog {
   width: 1.4rem;
   height: 1.28rem;
-  background: url(../images/dog.png) no-repeat;
-  background-size: 100% 100%;
+  background: url(../images/dog1.png) no-repeat;
+  background-size: cover;
   position: absolute;
   left: 0;
+  z-index: 11;
   bottom: 1.37rem;
+  overflow: hidden;
+}
+.start-game .aaa {
+  animation: xiong 1s steps(3) 3, a1 3s linear forwards;
+}
+.start-game .bbb {
+  animation: xiong2 1s steps(3) 3, b1 3s linear forwards;
+}
+.start-game .ccc {
+  animation: xiong3 1s steps(3) 3, c1 3s linear forwards;
+}
+.start-game .ddd {
+  animation: xiong4 1s steps(3) 3, d1 3s linear forwards;
+}
+.start-game .eee {
+  animation: xiong5 1s steps(3) 3, e1 3s linear forwards;
+}
+@keyframes a1 {
+  0% {
+    left: 0;
+    bottom: 1.37rem;
+  }
+  100% {
+    left: 1.3rem;
+    bottom: 2rem;
+  }
+}
+@keyframes b1 {
+  0% {
+    left: 1.3rem;
+    bottom: 2rem;
+  }
+  100% {
+    left: 2.5rem;
+    bottom: 2rem;
+  }
+}
+@keyframes c1 {
+  0% {
+    left: 2.5rem;
+    bottom: 2rem;
+  }
+  100% {
+    left: 3.5rem;
+    bottom: 2.1rem;
+  }
+}
+@keyframes d1 {
+  0% {
+    left: 3.5rem;
+    bottom: 2.1rem;
+  }
+  100% {
+    left: 4.6rem;
+    bottom: 2rem;
+  }
+}
+@keyframes e1 {
+  0% {
+    left: 4.6rem;
+    bottom: 2rem;
+  }
+  100% {
+    left: 5.8rem;
+    bottom: 2rem;
+  }
+}
+@keyframes xiong {
+  100% {
+    background-position: -4.2rem 0;
+  }
+}
+@keyframes xiong2 {
+  100% {
+    background-position: -4.2rem 0;
+  }
+}
+@keyframes xiong3 {
+  100% {
+    background-position: -4.2rem 0;
+  }
+}
+@keyframes xiong4 {
+  100% {
+    background-position: -4.2rem 0;
+  }
+}
+@keyframes xiong5 {
+  100% {
+    background-position: -4.2rem 0;
+  }
 }
 .start-game .words {
   position: absolute;
@@ -369,6 +479,7 @@ div {
   position: absolute;
   top: 0.14rem;
   left: 0;
+  z-index: 1;
 }
 .grade .share {
   width: 1.27rem;
@@ -379,6 +490,7 @@ div {
   position: absolute;
   right: 0.4rem;
   top: 0.14rem;
+  z-index: 1;
 }
 .grade .person {
   width: 2.4rem;
@@ -390,6 +502,7 @@ div {
   top: 0.8rem;
   left: 50%;
   transform: translateX(-50%);
+  z-index: 1;
 }
 .grade .person img {
   margin: auto;
@@ -417,6 +530,7 @@ div {
   letter-spacing: 4px;
   box-shadow: 0px 0px 7px #1e7cc4;
   text-shadow: 5px 5px 5px #1e7cc4;
+  z-index: 1;
 }
 .grade .result i {
   color: #79cbff;
@@ -426,7 +540,7 @@ div {
   margin: auto;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-around;
+  justify-content: flex-start;
 }
 .grade .guan div {
   width: 2.11rem;
@@ -434,11 +548,168 @@ div {
   text-align: center;
   line-height: 1.17rem;
   color: #e0f3ff;
-  background: url(../images/active.png) no-repeat;
+  background: url(../images/active1.png) no-repeat;
   background-size: 100% 100%;
   margin-bottom: 0.25rem;
+  margin-right: 0.11rem;
+  pointer-events: none;
+  cursor: default;
+}
+.grade .guan .ac {
+  background: url(../images/active.png) no-repeat;
+  background-size: 100% 100%;
+  pointer-events: auto;
+  cursor: auto;
 }
 .grade .exit {
+  width: 3.83rem;
+  height: 1.2rem;
+  background: url(../images/exitBtn.png) no-repeat;
+  background-size: 100% 100%;
+  margin: auto;
+  margin-bottom: 0.5rem;
+}
+.grade1 {
+  min-height: 100%;
+  font-family: 'my-font';
+  background: #7cc3fc url(../images/yunFooter.png) no-repeat center bottom;
+  background-size: 100% 2.81rem;
+  position: absolute;
+  top: 0;
+  z-index: 10;
+  width: 100%;
+  padding-bottom: 0.8rem;
+  padding-top: 4rem;
+}
+.grade1 .tit {
+  position: absolute;
+  z-index: 0;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+.grade1 .bang {
+  width: 3.54rem;
+  position: absolute;
+  top: 7rem;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.grade1 .footer {
+  position: absolute;
+  bottom: 0.8rem;
+  padding: 0.35rem;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.grade1 .footer div {
+  width: 3.22rem;
+  height: 1.2rem;
+  background: url(../images/xiayiguanB.png) no-repeat;
+  background-size: 100% 100%;
+  text-align: center;
+  line-height: 1.2rem;
+  font-size: 0.36rem;
+  color: #fff;
+  text-shadow: 1px 1px 1px red;
+}
+.grade1 .nextBtn {
+  width: 1.34rem;
+  height: 1.1rem;
+  background: url(../images/nextBtn.png) no-repeat;
+  background-size: 100% 100%;
+  margin-bottom: 0.56rem;
+  position: absolute;
+  top: 0.14rem;
+  left: 0;
+  z-index: 1;
+}
+.grade1 .share {
+  width: 1.27rem;
+  height: 1.3rem;
+  background: url(../images/shareBtn.png) no-repeat;
+  background-size: 100% 100%;
+  margin-bottom: 0.56rem;
+  position: absolute;
+  right: 0.4rem;
+  top: 0.14rem;
+  z-index: 1;
+}
+.grade1 .person {
+  width: 2.4rem;
+  height: 2.4rem;
+  background: url(../images/personBg.png) no-repeat;
+  background-size: 100% 100%;
+  display: flex;
+  position: absolute;
+  top: 0.8rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+}
+.grade1 .person img {
+  margin: auto;
+  width: 1.9rem;
+  height: 1.9rem;
+  margin-top: 0.15rem;
+}
+.grade1 .name {
+  position: absolute;
+  top: 3.18rem;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #fff;
+  font-size: 0.3rem;
+}
+.grade1 .result {
+  width: 6.66rem;
+  margin: auto;
+  margin-bottom: 0.6rem;
+  border-radius: 0.2rem;
+  border: 4px solid #4ed1f4;
+  background: #2588d4;
+  color: #e0f3ff;
+  padding: 0.4rem 0.5rem;
+  letter-spacing: 4px;
+  box-shadow: 0px 0px 7px #1e7cc4;
+  text-shadow: 5px 5px 5px #1e7cc4;
+  z-index: 1;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 0.5rem;
+}
+.grade1 .result i {
+  color: #79cbff;
+}
+.grade1 .guan {
+  width: 6.66rem;
+  margin: auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+.grade1 .guan div {
+  width: 2.11rem;
+  height: 1.17rem;
+  text-align: center;
+  line-height: 1.17rem;
+  color: #e0f3ff;
+  background: url(../images/active1.png) no-repeat;
+  background-size: 100% 100%;
+  margin-bottom: 0.25rem;
+  margin-right: 0.11rem;
+  pointer-events: none;
+  cursor: default;
+}
+.grade1 .guan .ac {
+  background: url(../images/active.png) no-repeat;
+  background-size: 100% 100%;
+  pointer-events: auto;
+  cursor: auto;
+}
+.grade1 .exit {
   width: 3.83rem;
   height: 1.2rem;
   background: url(../images/exitBtn.png) no-repeat;

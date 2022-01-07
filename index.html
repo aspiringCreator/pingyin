@@ -1,14 +1,14 @@
 <!--
  * @Author: your name
  * @Date: 2021-11-30 15:48:30
- * @LastEditTime: 2021-12-29 11:25:09
+ * @LastEditTime: 2022-01-07 09:46:18
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/
 
 %E9%85%8D%E7%BD%AE
  * @FilePath: \ccit-webe:\创正2021年\创正11月\拼音小游戏\index.html
 -->
-<!-- 小鱼！珊珊！ -->
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -38,6 +38,8 @@ scalable=0">
     <script src="./js/pinyin2.js"></script>
     <script src="./js/axios.min.js"></script>
     <script src="./js/vue.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vant@2.12/lib/index.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/vant@2.12/lib/vant.min.js"></script>
     <script type="text/javascript" src="./js/Boom.js"></script>
     <style>
         * {
@@ -120,11 +122,12 @@ controls></audio> -->
             </div>
         </div>
         <!-- 游戏开始页面 -->
-        <div class="popt" v-show='pop'>
+        <!-- <div class="popt" v-show='pop'>
             <div class="continer">
                 <div class="t">识别中...</div>
             </div>
-        </div>
+        </div> -->
+
         <div class="start-game m" style="opacity: 0;">
             <div id="main">
                 <div class="item"><img src="images/pop.png" alt=""></div>
@@ -143,6 +146,7 @@ controls></audio> -->
                 <div class="xin"></div>
                 <!-- <div class="text fon">x6</div> -->
             </div>
+            <img src="images/b.png" alt="" class="b" v-show='pop'>
             <!-- 金币 -->
             <!-- <div class="gold z"> -->
             <div class="money z" @click='moneyBtn'></div>
@@ -158,7 +162,8 @@ controls></audio> -->
             <!-- yun -->
             <div class="cloud"></div>
             <!-- 小狗 -->
-            <div class="dog z" @click='dog'></div>
+            <div :class="{dog:true,z:true}" @click='dog'></div>
+            <div class="bone"></div>
             <!-- 圈 -->
             <div class="circle circle1"></div>
             <div class="circle circle2"></div>
@@ -185,6 +190,27 @@ controls></audio> -->
         </div> -->
 
 
+        </div>
+        <!-- 游戏结束页面 -->
+        <div class=" grade1" style="z-index: 11111;display: none;">
+            <img src="images/jieshu.png" alt="" class="tit">
+            <div class="nextBtn" @click='nextBtn1'></div>
+            <div class="share"></div>
+            <div class="person"><img src="images/person.png" alt=""></div>
+            <div class="name">殷桃小丸子</div>
+            <div class="result">
+                <div class="t">共有：<span>20</span></div>
+                <div class="b">答对：<span>20</div>
+                <div class="b">得分：<span style="color: yellow;">100分</div>
+            </div>
+            <img src="images/bang.png" alt="" class="bang">
+
+
+            <div class="footer">
+                <div class="" @click='goOnBtn'>继续挑战</div>
+                <div>下一关</div>
+            </div>
+            <!-- <div class="exit"></div> -->
         </div>
         <!-- 注册信息页面 -->
         <div class="register" style="display: none;">
@@ -235,65 +261,42 @@ controls></audio> -->
             <div class="name">殷桃小丸子</div>
             <div class="result">
                 <div class="t">获得分数：<span>8000</span></div>
-                <div class="b">已闯关数：<span>5/</span><i>6</i></div>
+                <!-- <div class="b">已闯关数：<span>5/</span><i>6</i></div> -->
             </div>
             <div class="guan">
-                <div>第一关</div>
+                <div v-for="(item,index) in guan" :index="index" :class="{ac:index<guanNum}" @click='startBtnG(index)'>{{item}}</div>
+                <!-- <div class="ac">第一关</div>
                 <div>第二关</div>
                 <div>第三关</div>
                 <div>第四关</div>
                 <div>第五关</div>
-                <div>第六关</div>
+                <div>第六关</div> -->
             </div>
             <div class="guan" style="margin-bottom: .25rem;">
-                <div>自定义+</div>
-                <div>自定义+</div>
+
+                <div @click='custom' class="ac">自定义+</div>
             </div>
             <div class=""></div>
             <div class="exit"></div>
         </div>
         <!-- 自定义关卡 -->
-        <div class="custom">
-            <div class="nextBtn"></div>
+        <div class="custom" style="display: none;">
+            <div class="nextBtn" @click='customNextBtn'></div>
             <div class="text">自定义关卡</div>
             <div class="shu">请输入汉字(将转换成下落拼音)</div>
             <input type="text" placeholder="请输入汉字" v-model='textword' class="te">
             <div class="add" @click='addBtn'></div>
             <div class="addKuang">
                 <div class="continer">
-                <div class="list">
-                    <div>1</div>
-                    <div>开开心开开心开开心开开心开开心开开心开开心开开心开开心开开心开开心开开心</div>
-                    <div></div>
+                <div class="list" v-for="(item,index) in textList" :index="index">
+                    <div>{{index+1}}</div>
+                    <div>{{item.pinyin}}</div>
+                    <div @click='deleteBtn(index)'></div>
                 </div>
-                <div class="list">
-                    <div>1</div>
-                    <div>开开开心</div>
-                    <div></div>
-                </div>
-                <div class="list">
-                    <div>1</div>
-                    <div>开开开心</div>
-                    <div></div>
-                </div>
-                <div class="list">
-                    <div>1</div>
-                    <div>开开开心</div>
-                    <div></div>
-                </div>
-                <div class="list">
-                    <div>1</div>
-                    <div>开开开心</div>
-                    <div></div>
-                </div>
-                <div class="list">
-                    <div>1</div>
-                    <div>开开开心</div>
-                    <div></div>
-                </div>
+
             </div>
             </div>
-            <div class="baocunBtn"></div>
+            <div class="baocunBtn" @click="saveBtn"></div>
         </div>
     </div>
     <table width=" 100%" height="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#87CEEB">
@@ -309,6 +312,7 @@ controls></audio> -->
         var app = new Vue({
             el: '#app',
             data: {
+                time:50,//计时器时间
                 pop:false,//识别中弹窗
                 jiushu: 0,
                 money: 0, //金币
@@ -326,20 +330,61 @@ controls></audio> -->
                 }, ],
                 result: '', //每次说的话
                 mark: 0, //每次说话匹配正确的索引
+                count:0,//答对的题数
                 textword:'',//用户自定义汉字
                 textList:[],//存放用户自定义输入的汉字数组
-
+                textList1:[],//存放用户自定义输入的汉字数组
+                guan:['第一关','第二关','第三关','第四关','第五关','第六关'],
+                guanNum:1,
             },
             mounted() {
-                this.dataArrStart()
+                // this.dataArrStart()
+                // this.getUserInfo()
             },
             methods: {
+                getUserInfo(){
+
+
+                },
+
                 //点击添加添加汉字
                 addBtn:function(){
+                    if(this.textword==''){
+                        this.$toast.fail('输入为空');
+                    }else{
+                       let str=pinyinUtil.getPinyin(this.textword,' ', true, )
+                       this.textList1.unshift({pinyin:str})
+                        this.textList.unshift({pinyin:this.textword})
+                        this.textword=''
+                        // pinyinUtil.getPinyin(this.textword,' ', true, true);
+                    }
+                    console.log(this.textList);
+                },
+                //删除自定义数据
+                deleteBtn:function(idx){
+                    this.textList.splice(this.textList[idx],1)
+                    console.log(this.textList);
+                },
+                //自定义保存按钮
+                saveBtn:function(){
+                    if(this.textList.length==0){
+                        this.$toast.fail('请您添加词汇');
+                    }else if(this.textList.length<10){
+                        this.$toast.fail('请您十组词汇');
+                    }else{
+                        this.dataArr=[]
 
-
-                            console.log(this.textword);
-
+                     this.dataArr=this.textList1
+                    $('.start-game').css('opacity', '1')
+                    $('.custom').hide()
+                    $('.xin').show()
+                    setTimeout(() => {
+                        this.num = -$(".words").innerHeight()
+                        this.startInterval(50)
+                        this.offsetTopStart()
+                    }, 1000)
+                    console.log(this.dataArr);
+                    }
                 },
                 //语音开始
                 fn1: function () {
@@ -388,9 +433,46 @@ controls></audio> -->
                                     this.mark = findIndexes(arr1, arr2)
 
                                     if (this.mark.length != 0) {
-                                        _this.money = _this.money + 100
+                                        _this.money = _this.money + 1
                                         // alert(this.mark)
+                                        _this.count=_this.count+1
+                                        if( _this.count==1){
+                                            $('.dog').addClass('aaa')
+                                            setTimeout(()=>{
+                                                $('.circle1').fadeOut()
+                                            },3000)
+                                        }
+                                        if( _this.count==2){
+                                            $('.dog').addClass('bbb')
+                                            setTimeout(()=>{
+                                                $('.circle2').fadeOut()
+                                            },3000)
+                                        }
+                                        if( _this.count==3){
+                                            $('.dog').addClass('ccc')
+                                            setTimeout(()=>{
+                                                $('.circle3').fadeOut()
+                                            },3000)
+                                        }
+                                        if( _this.count==4){
+                                            $('.dog').addClass('ddd')
+                                            setTimeout(()=>{
+                                                $('.circle4').fadeOut()
+                                            },3000)
+                                        }
+                                        if( _this.count==5){
+                                            $('.dog').addClass('eee')
+                                            setTimeout(()=>{
+                                                $('.circle5').fadeOut()
+                                                $('.bone').fadeOut()
 
+                                            },3000)
+                                             setTimeout(() => {
+                                                $('.start-game').css('opacity', '0')
+                                                $('.grade1').show()
+                                                clearInterval(_this.intervalBox)
+                                            }, 4000)
+                                        }
                                         $('.words .list').eq(this.mark).children(
                                             'img').show()
                                         boom($('.words .list').eq(this.mark)
@@ -421,7 +503,7 @@ controls></audio> -->
                     boom($('.img1').eq(9))
                 },
                 //初始拼音
-                dataArrStart: function () {
+                dataArrStart: function (idx) {
                     let _this = this
                     // alert('加载')
                     axios({
@@ -430,7 +512,7 @@ controls></audio> -->
                         params: {
                             page: 1,
                             limit: 10,
-                            category_id: 1,
+                            category_id: idx,
                             name: '',
                         },
                         // Headers: {
@@ -471,7 +553,6 @@ controls></audio> -->
                 },
                 //初始化定时器
                 startInterval: function (a) {
-
                     let _this = this
                     _this.jiushu = 0
                     var num = -$(".words").innerHeight()
@@ -479,12 +560,8 @@ controls></audio> -->
                     console.log(dvheight, num);
                     console.log($(".words .list").innerHeight());
                     $('.words').css('top', this.num + 'px')
-
                     this.intervalBox = setInterval((a) => {
                         this.num++
-
-
-
                         for (var i = 0; i < $(".words .list").length; i++) {
 
                             // console.log(i);
@@ -495,13 +572,8 @@ controls></audio> -->
                                 console.log(($(".words .list").eq(i).css('opacity')) == 1);
                                 if ($(".words .list").eq(i).css('opacity') == 1) { //false 星星减少
                                     _this.jiushu++
-
                                     $('.xin').eq(_this.jiushu - 1).hide()
-
-
                                 }
-
-
                                 // if (_this.jiushu == 3) {
                                 //     setTimeout(() => {
                                 //         // alert('挑战失败 游戏结束')
@@ -517,38 +589,63 @@ controls></audio> -->
                             clearInterval(this.intervalBox)
                             setTimeout(() => {
                                 $('.start-game').css('opacity', '0')
-                                $('.grade').show()
+                                $('.grade1').show()
                                 clearInterval(this.intervalBox)
                             }, 1000)
                         }
 
                         if (this.num > (Math.ceil($(".start-game").innerHeight() - dvheight))) {
                             $('.start-game').css('opacity', '0')
-                            $('.grade').show()
+                            $('.grade1').show()
                             clearInterval(this.intervalBox)
-
-
                         }
                         // console.log(Math.ceil($(".start-game").innerHeight() + 10));
                         $('.words').css('top', this.num + 'px')
                         $('.words').css('opacity', 1)
-                        // console.log(this.num);
-                        // console.log(($(".words").offset().top + $(".words")
-                        //         .height()) - ($(".grassland").offset().top +
-                        //         $(".grassland").height()) < $(".grassland")
-                        //     .height());
-                        // console.log($(".grassland").offset().top + ',,,');
-                        // console.log($(".words .list").eq(4).offset().top + '---');
-
-
 
                     }, a);
                 },
 
                 //返回重新开始按钮
                 nextBtn: function () {
-                    $('.start-game').css('opacity', '1')
                     $('.grade').hide()
+                    $('.main').show()
+                    // $('.start-game').css('opacity', '1')
+                    // $('.grade').hide()
+                    // this.num = -$(".words").innerHeight()
+                    // $('.xin').show()
+                    // setTimeout(() => {
+                    //     this.startInterval(50)
+                    //     this.offsetTopStart()
+                    // }, 1000)
+                    // for (var i = 0; i < $(".words .list").length; i++) {
+                    //     $(".words .list").eq(i).css('opacity', '1')
+                    // }
+                },
+                nextBtn1:function(){
+                    this.count=0
+                    $('.dog').removeClass('aaa bbb ccc ddd eee')
+                    $('.circle1').show()
+                    $('.circle2').show()
+                    $('.circle3').show()
+                    $('.circle4').show()
+                    $('.circle5').show()
+                  $('.start-game').css('opacity', '1')
+                    $('.grade1').hide()
+                    this.num = -$(".words").innerHeight()
+                    $('.xin').show()
+                    setTimeout(() => {
+                        this.startInterval(50)
+                        this.offsetTopStart()
+                    }, 1000)
+                    for (var i = 0; i < $(".words .list").length; i++) {
+                        $(".words .list").eq(i).css('opacity', '1')
+                    }
+                },
+                // 继续挑战按钮
+                goOnBtn:function(){
+                    $('.start-game').css('opacity', '1')
+                    $('.grade1').hide()
                     this.num = -$(".words").innerHeight()
                     $('.xin').show()
                     setTimeout(() => {
@@ -563,40 +660,62 @@ controls></audio> -->
                 stopInterval: function () {
                     clearInterval(this.intervalBox); //清除interval定时器
                 },
+                //暂停
                 moneyBtn:function(){
-                //    if (this.intervalBox) {
-                //         this.intervalBox = clearInterval(this.intervalBox);
-                //     } else {
-                //         return;
-                //     }
                 clearInterval(this.intervalBox)
                 this.startInterval(50)
                 },
                 //点击开始按钮
                 startBtn: function () {
-                    // $('.words .list').eq(8).css(
-                    //     'opacity',
-                    //     '0');
-                    this.num = -$(".words").innerHeight()
                     $('#canvas').hide()
-                    $('.start-game').css('opacity', '1')
+                    $('.grade').show()
+                    // this.num = -$(".words").innerHeight()
+                    // $('#canvas').hide()
+                    // $('.start-game').css('opacity', '1')
 
+                    // setTimeout(() => {
+                    //     this.startInterval(50)
+                    //     this.offsetTopStart()
+                    // }, 1000)
+                    // console.log(-$(".words").innerHeight());
+                },
+                // 关卡按钮
+                startBtnG:function(idx){
+                    this.dataArrStart(idx+1)
+                    $('.start-game').css('opacity', '1')
+                    $('.grade').hide()
+                    $('.xin').show()
                     setTimeout(() => {
+                        this.num = -$(".words").innerHeight()
                         this.startInterval(50)
                         this.offsetTopStart()
                     }, 1000)
-                    console.log(-$(".words").innerHeight());
+                },
+                // 点击自定义按钮
+                custom:function(){
+                    $('.grade').hide()
+                    $('.custom').show()
+                },
+                //点击自定义返回按钮
+                customNextBtn:function(){
+                    $('.grade').show()
+                    $('.custom').hide()
                 },
                 //减速暂停
                 speedBtn: function () {
-                    // if (this.intervalBox) {
-                    //     this.intervalBox = clearInterval(this.intervalBox);
-                    // } else {
-                    //     return;
-                    // }
+                    let _this=this
+                   _this.time= _this.time+10
+                    if(this.money!=0){
+                        clearInterval(this.intervalBox)
+                        this.startInterval(_this.time)
+                        this.money--
+                        console.log(_this.time);
+                    }else{
+                        this.$toast.fail('没有金币了');
+                    }
 
-                    clearInterval(this.intervalBox)
-                    this.startInterval(100)
+                    // clearInterval(this.intervalBox)
+                    // this.startInterval(100)
                 },
                 //炸弹
                 boomBtn: function () {
@@ -611,16 +730,21 @@ controls></audio> -->
                     // this.startInterval()
                     // $('img').show()
 
-                    for (var i = 0; i < $(".words .list").length; i++) {
-                        if ($(".words .list").eq(i).offset().top >= -40) {
-                            $(".words .list").eq(i).css('opacity', '0')
-                        }
+                    if(this.money==0) {
+                        this.$toast.fail('没有金币了')
+                    }else{
+                        for (var i = 0; i < $(".words .list").length; i++) {
+                            if ($(".words .list").eq(i).offset().top >= -40) {
+                                $(".words .list").eq(i).css('opacity', '0')
+                            }
 
-                        // console.log($(".words .list").eq(8).offset().top + 'top');
-                    }
-                    if ($(".words .list").eq(0).css('opacity') == 0) {
-                        clearInterval(this.intervalBox); //清除interval定时器
-                        alert('被你炸干净了');
+                            // console.log($(".words .list").eq(8).offset().top + 'top');
+                        }
+                        if ($(".words .list").eq(0).css('opacity') == 0) {
+                            clearInterval(this.intervalBox); //清除interval定时器
+                            alert('被你炸干净了');
+                        }
+                        this.money--
                     }
                 },
                 //点击头像 再次开始动画
